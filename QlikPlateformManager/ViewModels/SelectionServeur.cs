@@ -8,23 +8,12 @@ using System.Web.Mvc;
 
 namespace QlikPlateformManager.ViewModels
 {
-    public class SelectionServeur
+    public static class SelectionServeur
     {
-        [Display(Name = "Serveur")]
-        [Required(ErrorMessage = "Le serveur de l'application à archiver doit être sélectionné")]
-        public List<string> SelectedServeur { get; set; }
-        [Required(ErrorMessage = "Le serveur de l'application à archiver doit être sélectionné")]
-        public List<SelectListItem> ServeursList
-        {
-            get
-            {
-                return InitialiseListServeur();
-            }
-        }
 
-        private IDal dal;
+        private static IDal dal;
 
-        private List<SelectListItem> InitialiseListServeur()
+        public static List<SelectListItem> List()
         {
             //Création de la liste à afficher
             List<SelectListItem> serveursSelectListItem = new List<SelectListItem>();

@@ -10,9 +10,11 @@ namespace QlikPlateformManager.Controllers
     public class ArchiverController : Controller
     {
         // GET: Archiver
-        public ActionResult Application(ArchiverApplicationViewModel archiverApplicationViewModel = null)
+        //public ActionResult Application(ArchiverApplicationViewModel archiverApplicationViewModel = null)
+        public ActionResult Application()
         {
-            if(archiverApplicationViewModel == null) archiverApplicationViewModel = new ArchiverApplicationViewModel();
+            //if(archiverApplicationViewModel == null) archiverApplicationViewModel = new ArchiverApplicationViewModel();
+            ArchiverApplicationViewModel archiverApplicationViewModel = new ArchiverApplicationViewModel();
             return View(archiverApplicationViewModel);
         }
 
@@ -26,21 +28,17 @@ namespace QlikPlateformManager.Controllers
             archiverApplicationViewModel.Results.Title = "Archivage KO";
             archiverApplicationViewModel.Results.Resume = "Archivage de l'application XXX à partir du flux YYY du serveur ZZZ";
             archiverApplicationViewModel.Results.Details = "Etape de l'archivage :";
-            bool isValidGlobalModel = ModelState.IsValid
+            /*bool isValidGlobalModel = ModelState.IsValid
                                         && TryValidateModel(archiverApplicationViewModel.ServeurSource, "ApplicationSource.")
                                         && TryValidateModel(archiverApplicationViewModel.FluxSource, "ApplicationSource.")
-                                        && TryValidateModel(archiverApplicationViewModel.ApplicationSource, "ApplicationSource.");
-            //bool isValidGlobalModel = ModelState.IsValid;
+                                        && TryValidateModel(archiverApplicationViewModel.ApplicationSource, "ApplicationSource.");*/
+            bool isValidGlobalModel = ModelState.IsValid;
             if (!isValidGlobalModel)
             {
                 
                 return View(archiverApplicationViewModel);
             }
 
-            if (archiverApplicationViewModel.ApplicationSource.SelectedApplication == null)
-            {
-                return View(archiverApplicationViewModel);
-            }
 
             //Reussite
             archiverApplicationViewModel.Results.Title = "Archivage OK";

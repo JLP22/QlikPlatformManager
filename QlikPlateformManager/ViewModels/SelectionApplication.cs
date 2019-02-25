@@ -8,37 +8,26 @@ using System.Web.Mvc;
 
 namespace QlikPlateformManager.ViewModels
 {
-    public class SelectionApplication
+    public static class SelectionApplication
     {
-         [Display(Name = "Serveur")]
-         [Required(ErrorMessage = "L'application à archiver doit être sélectionné")]
-         public List<string> SelectedApplication { get; set; }
-         public List<SelectListItem> ApplicationsList
-         {
-             get
-             {
-                 return InitialiseListApplication();
-             }
-         }
+        private static IDal dal;
 
-         private IDal dal;
+        public static List<SelectListItem> List()
+        {
+            //Création de la liste à afficher
+            List<SelectListItem> applicationsSelectListItem = new List<SelectListItem>();
+            dal = new DalEnDur();
+            foreach (Application application in dal.ObtenirListeApplications())
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = application.Nom,
+                    Value = application.Id
+                };
+                applicationsSelectListItem.Add(selectList);
+            }
 
-         private List<SelectListItem> InitialiseListApplication()
-         {
-             //Création de la liste à afficher
-             List<SelectListItem> applicationsSelectListItem = new List<SelectListItem>();
-             dal = new DalEnDur();
-             foreach (Application application in dal.ObtenirListeApplications())
-             {
-                 SelectListItem selectList = new SelectListItem()
-                 {
-                     Text = application.Nom,
-                     Value = application.Id
-                 };
-                 applicationsSelectListItem.Add(selectList);
-             }
-
-             return applicationsSelectListItem;
-         }      
+            return applicationsSelectListItem;
+        }      
     }
 }

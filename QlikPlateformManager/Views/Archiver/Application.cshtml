@@ -46,21 +46,21 @@
                 <fieldset class="form-group">
                     <legend>Sélection de l'application à archiver</legend>
                     <div class="form-group">
-                        @Html.LabelFor(model => model.ServeurSource.SelectedServeur)
-                        @Html.DropDownListFor(model => model.ServeurSource.SelectedServeur, new SelectList(Model.ServeurSource.ServeursList, "Value", "Text"), "", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ServeurSource.SelectedServeur)
+                        @Html.LabelFor(model => model.ServeurSource)
+                        @Html.DropDownListFor(model => model.ServeurSource, new SelectList(Model._ServeurSource, "Value", "Text"), "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ServeurSource, "", new { @class = "text-danger" })
                         @*@Html.ValidationMessageFor(model => model.SelectedServeur2)*@
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(model => model.FluxSource.SelectedFlux)
-                        @Html.DropDownListFor(model => model.FluxSource.SelectedFlux, new SelectList(Model.FluxSource.FluxList, "Value", "Text"), "", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.FluxSource.SelectedFlux)
+                        @Html.LabelFor(model => model.FluxSource)
+                        @Html.DropDownListFor(model => model.FluxSource, new SelectList(Model._FluxSource, "Value", "Text"), "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FluxSource, "", new { @class = "text-danger" })
 
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(model => model.ApplicationSource.SelectedApplication)
-                        @Html.DropDownListFor(model => model.ApplicationSource.SelectedApplication, new SelectList(Model.ApplicationSource.ApplicationsList, "Value", "Text"), "", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ApplicationSource.SelectedApplication)
+                        @Html.LabelFor(model => model.ApplicationSource)
+                        @Html.DropDownListFor(model => model.ApplicationSource, new SelectList(Model._ApplicationSource, "Value", "Text"), "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ApplicationSource, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-check">
                         @Html.CheckBoxFor(model => model.AvecDonnees, new { @class = "form-check-input" })
