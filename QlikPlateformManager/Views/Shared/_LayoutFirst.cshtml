@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mon application ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Qlik Plateform Manager", "Index", "Afficher", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            @*<div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Accueil", "Index", "Home")</li>
+                        <li>@Html.ActionLink("À propos de", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                    <p class="nav navbar-text navbar-right">Bonjour, @User.Identity.Name!</p>
+                </div>*@
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+
+                    @* Menu déploiement *@
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Déploiement
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Script", "Script", "Deployer")</li>
+                            <li>@Html.ActionLink("Application", "Application", "Deployer")</li>
+                            <li>@Html.ActionLink("Package", "Package", "Deployer")</li>
+                        </ul>
+                    </li>
+
+                    @* Menu Archivage *@
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Archivage
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+
+                            <li>@Html.ActionLink("Application", "Application", "Archiver")</li>
+                            <li>@Html.ActionLink("Structure", "Structure", "Archiver")</li>
+                        </ul>
+                    </li>
+
+                    @* Menu Planification *@
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Planification
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Deploiement", "Deploiement", "Planifier")</li>
+                            <li>@Html.ActionLink("Archivage", "Archivage", "Planifier")</li>
+                            <li>@Html.ActionLink("Test", "Test", "Planifier")</li>
+                        </ul>
+                    </li>
+
+                    @* Menu mise à jour *@
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Mise à jour
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Dimension", "Dimension", "MAJ")</li>
+                            <li>@Html.ActionLink("Structure", "Structure", "MAJ")</li>
+                        </ul>
+                    </li>
+
+                    @* Menu Supervision *@
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Supervision
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Session", "Session", "Superviser")</li>
+                            <li>@Html.ActionLink("Utilisation", "Utilisation", "Superviser")</li>
+                        </ul>
+                    </li>
+
+                    @* Menu Test *@
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Test
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Sécurité", "Securite", "Tester")</li>
+                            <li>@Html.ActionLink("Réduction de données", "Reduction", "Tester")</li>
+                            <li>@Html.ActionLink("Valeur objet", "Donnees", "Tester")</li>
+                            <li>@Html.ActionLink("Résultats", "Resultats", "Tester")</li>
+                        </ul>
+                    </li>
+
+                    @* Menu Infos *@
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Infos
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Documentation", "Documentation", "Afficher")</li>
+                            <li>@Html.ActionLink("Liens", "Liens", "Afficher")</li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <p class="nav navbar-text navbar-right">Bonjour, @User.Identity.Name!</p>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - SOFIREP</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,88 @@
+﻿@model  QlikPlateformManager.ViewModels.ArchiverApplicationViewModel
+@{
+//ViewBag.Title = "Liens";
+//Layout = "~/Views/Shared/_LayoutQmc.cshtml";
+}
+<script type="text/javascript">
+    function onBegin() {
+        $("#ActionStateSpr")[0].style.display = '';
+        $("#ActionStateBtn").attr("disabled", true);
+    }
+    function onComplete() {
+        $("#ActionStateSpr")[0].style.display = 'none';
+        $("#ActionStateBtn").attr("disabled", false);
+        /*
+        //Erreur de modele
+        var contenu = document.getElementById("Resume").textContent;
+        if (contenu == null || contenu.trim() == "") alert("toto");
+
+        //A faire recharger la vue aver le mode MVC
+        location.reload(true);*/
+
+    }
+    function Erreur() {
+        alert("Une erreur s'est produite lors de la recherche, veuillez réessayer ...");
+    }
+</script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">Archivage</li>
+                    <li class="breadcrumb-item active" aria-current="page">Application</li>
+                </ol>
+            </nav>
+            <br />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+
+            @*@using (Html.BeginForm())*@
+            @*@using (Ajax.BeginForm("Application", "Archiver", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ResultsDiv", OnBegin = "onBegin", OnComplete = "onComplete", OnFailure = "Erreur" }))*@
+            @using (Ajax.BeginForm("Application", "Archiver", new AjaxOptions { HttpMethod = "Post", OnBegin = "onBegin", OnComplete = "onComplete", OnFailure = "Erreur" }))
+            {
+                <fieldset class="form-group">
+                    <legend>Sélection de l'application à archiver</legend>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ServeurSource.SelectedServeur)
+                        @Html.DropDownListFor(model => model.ServeurSource.SelectedServeur, new SelectList(Model.ServeurSource.ServeursList, "Value", "Text"), "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ServeurSource.SelectedServeur)
+                        @*@Html.ValidationMessageFor(model => model.SelectedServeur2)*@
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FluxSource.SelectedFlux)
+                        @Html.DropDownListFor(model => model.FluxSource.SelectedFlux, new SelectList(Model.FluxSource.FluxList, "Value", "Text"), "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FluxSource.SelectedFlux)
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ApplicationSource.SelectedApplication)
+                        @Html.DropDownListFor(model => model.ApplicationSource.SelectedApplication, new SelectList(Model.ApplicationSource.ApplicationsList, "Value", "Text"), "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ApplicationSource.SelectedApplication)
+                    </div>
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.AvecDonnees, new { @class = "form-check-input" })
+                        @Html.LabelFor(model => model.AvecDonnees, new { @class = "form-check-label" })
+                    </div>
+
+                    <br />
+                    <button id="ActionStateBtn" type="submit" class="btn btn-success">
+                        @*disabled*@
+                        <span id="ActionStateSpr" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> @*hidden*@
+                        Archiver
+                    </button>
+                </fieldset>
+                <div class="row">
+                    <div id="ResultsDiv" class="col-sm-12">
+                        @Html.Partial("Results", Model.Results)
+                        @*@{
+            Html.RenderAction("Results");
+        }*@
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

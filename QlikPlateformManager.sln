@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QlikPlateformManager", "QlikPlateformManager\QlikPlateformManager.csproj", "{2F6DFADB-04B2-4A19-9978-96FF03E6922B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QlikPlateformManager.Tests", "QlikPlateformManager.Tests\QlikPlateformManager.Tests.csproj", "{BB731E2C-56A3-4E94-AFB0-2832435C1202}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F6DFADB-04B2-4A19-9978-96FF03E6922B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F6DFADB-04B2-4A19-9978-96FF03E6922B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F6DFADB-04B2-4A19-9978-96FF03E6922B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F6DFADB-04B2-4A19-9978-96FF03E6922B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB731E2C-56A3-4E94-AFB0-2832435C1202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB731E2C-56A3-4E94-AFB0-2832435C1202}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB731E2C-56A3-4E94-AFB0-2832435C1202}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB731E2C-56A3-4E94-AFB0-2832435C1202}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {04C5CB90-5F73-44C9-AD90-7F4F59B19956}
+	EndGlobalSection
+EndGlobal

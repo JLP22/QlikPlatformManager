@@ -1,0 +1,229 @@
+﻿@{
+    //ViewBag.Title = "Liens";
+    //Layout = "~/Views/Shared/_LayoutQmc.cshtml";
+}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">Infos</li>
+                    <li class="breadcrumb-item active" aria-current="page">Liens</li>
+                </ol>
+            </nav>
+            <br />
+        </div>
+        @*<h3>@ViewBag.Message</h3>*@
+    </div>
+    <div class="row">
+
+        <div class="col-sm-8 colonne-centree">
+            <!--------------------------------------------->
+            <!--            Répertoires de logs          -->
+            <!--------------------------------------------->
+
+            <div class="row">
+                <h6 class="panel-title">@*Logs et historique*@</h6>
+
+                <table class=" table  table-hover table-striped table-sm">
+                    <caption style="caption-side: top"> <h6>Logs et historique</h6></caption>
+                    <thead class="bg-success">
+                        <tr>
+                            <th> Environnement </th>
+                            <th scope="col"> Developpement </th>
+                            <th scope="col"> Recette </th>
+                            <th scope="col"> Production </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <TR>
+                            <th scope="row">Tâches Manuelles & en cours </th>
+                            <TD> <a href="\\SRV99BI\Qlik\Sense\Log\Script"> Manuelles </a> </TD>
+                            <TD colspan=2> <a href="\\SRV02BI\Qlik\Sense\Log\Script"> Manuelles </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">Tâches planifiées</th>
+                            <TD> <a href="\\srv99bi\QlikSense\ArchivedLogs\srv99bi.cerpbn.lan\Script"> Planifiées </a> </TD>
+                            <TD colspan=2> <a href="\\srv02bi\QlikSense\ArchivedLogs\srv02bi.cerpbn.lan\Script"> Planifiées </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">Nprinting</th>
+                            <TD colspan=3> <a href="\\srv01bi\Logs"> Nprinting </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">Outils Export logs (lien sur serveur)</th>
+                            <TD colspan=3>C:\Program Files\Qlik\Sense\Tools\QlikSenseLogCollector </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">Outils analyse logs (lien sur serveur)</th>
+                            <TD colspan=3>C:\Program Files\Qlik\Sense\Tools\QlikCockpit </TD>
+                        </TR>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row"><br /></div>
+            <!--------------------------------------------->
+            <!--            Répertoires de dev           -->
+            <!--------------------------------------------->
+            <div class="row">
+                <table class=" table  table-hover table-striped table-sm">
+                    <caption style="caption-side: top"> <h6>Scripts & fichiers</h6></caption>
+                    <thead class="bg-success">
+                        <tr>
+                            <th> Environnement </th>
+                            <th scope="col"> Developpement </th>
+                            <th scope="col"> Recette </th>
+                            <th scope="col"> Production </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <TR>
+                            <th scope="row">Applications</th>
+                            <TD> <a href="\\srv99bi\QSData\1-dev\applications"> App </a> </TD>
+                            <TD> <a href="\\srv02bi\QSData\2-recette\applications"> App </a> </TD>
+                            <TD> <a href="\\srv02bi\QSData\3-prod\applications"> App </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">QVD</th>
+                            <TD> <a href="\\srv99bi\QSData\1-dev\qvd"> Qvd </a> </TD>
+                            <TD> <a href="\\srv02bi\QSData\2-recette\qvd"> Qvd </a> </TD>
+                            <TD> <a href="\\srv02bi\QSData\3-prod\qvd"> Qvd </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">External-Data</th>
+                            <TD> <a href="\\srv99bi\QSData\1-dev\external-data"> Ext-D </a> </TD>
+                            <TD> <a href="\\srv02bi\QSData\2-recette\external-data"> Ext-D </a> </TD>
+                            <TD> <a href="\\srv02bi\QSData\3-prod\external-data"> Ext-D </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">Sécurité</th>
+                            <TD> <a href="\\srv99bi\QSData\1-dev\security"> Sécu </a> </TD>
+                            <TD> <a href="\\srv02bi\QSData\2-recette\security"> Sécu </a> </TD>
+                            <TD> <a href="\\srv02bi\QSData\3-prod\security"> Sécu </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">Nprinting</th>
+                            <TD colspan=3> <a href="\\srv01bi\Rapports\"> Rapports </a> </TD>
+                        </TR>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row"><br /></div>
+            <!--------------------------------------------->
+            <!--            Applications                 -->
+            <!--------------------------------------------->
+            <div class="row">
+                <table class="table table-hover table-striped table-sm">
+                    <caption style="caption-side: top"> <h6>Applications</h6></caption>
+                    <thead class="bg-success">
+                        <tr>
+                            <th> Environnement </th>
+                            <th scope="col"> Developpement </th>
+                            <th scope="col"> Recette / Production </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <TR>
+                            <th scope="row">Hub</th>
+                            <TD> <a href="http://bi.cerpba.int/hub/"> Hub </a> </TD>
+                            <TD> <a href="http://bi.cerpba.com/hub/"> Hub </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">QMC</th>
+                            <TD> <a href="http://bi.cerpba.int/qmc/"> QMC </a> </TD>
+                            <TD> <a href="http://bi.cerpba.com/qmc/"> QMC </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">DevHub</th>
+                            <TD> <a href="http://bi.cerpba.int/dev-hub/"> DevHub </a> </TD>
+                            <TD> <a href="http://bi.cerpba.com/dev-hub/"> DevHub </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">Engine API</th>
+                            <TD> <a href="http://bi.cerpba.int/dev-hub/engine-api-explorer/"> EngineAPI </a> </TD>
+                            <TD> <a href="http://bi.cerpba.com/dev-hub/engine-api-explorer/"> EngineAPI </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">NPrinting WC</th>
+                            <TD colspan=2> <a href="http://srv01bi:4993"> WebConsole </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">NPrinting NS</th>
+                            <TD colspan=2> <a href="http://srv01bi:4994"> NewsStand </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row"> Outils Développeurs à installer en local (lien sur serveur)</th>
+                            <TD colspan=3>C:\Program Files\Qlik\Sense\Tools\QlikExplorerForDevelopers </TD>
+                        </TR>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row"><br /></div>
+            <!--------------------------------------------->
+            <!--            Documentation                -->
+            <!--------------------------------------------->
+            <div class="row">
+                <table class="table table-hover table-striped table-sm">
+                    <caption style="caption-side: top"> <h6>Documentation</h6></caption>
+                    <thead class="bg-success">
+                        <tr>
+                            <th> Environnement </th>
+                            <th scope="col"> Developpement </th>
+                            <th scope="col"> Recette / Production </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <TR>
+                            <th scope="row">Utilisateurs (= en ligne)</th>
+                            <TD> <a href="\\srv99bi\QlikSense\StaticContent\Content\Documents"> Aucune(Vide) </a> </TD>
+                            <TD> <a href="\\srv02bi\QlikSense\StaticContent\Content\Documents"> Accessible de Qlik </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">Sofirep</th>
+                            <TD colspan=2> <a href="file://C:/QSData/0-docs"> Interne </a> </TD>
+                        </TR>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row"><br /></div>
+            <!--------------------------------------------->
+            <!--                  Autre                  -->
+            <!--------------------------------------------->
+            <div class="row">
+                <table class="table table-hover table-striped table-sm">
+                    <caption style="caption-side: top"> <h6>Autres</h6></caption>
+                    <thead class="bg-success">
+                        <tr>
+                            <th> Répertoire réseau </th>
+                            <th scope="col">Adresse</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <TR>
+                            <th scope="row">Commun</th>
+                            <TD> <a href="\\srv01fic\commun"> \\srv01fic\commun </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">SOFIREP</th>
+                            <TD> <a href="\\srv01fic\commun\SOFIREP"> \\srv01fic\commun\SOFIREP </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">Sofirep</th>
+                            <TD> <a href="\\srv01fic\sofirep"> \\srv01fic\sofirep </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">Etudes</th>
+                            <TD> <a href="\\srv01fic\sofirep\Etudes"> \\srv01fic\sofirep\Etudes </a> </TD>
+                        </TR>
+                        <TR>
+                            <th scope="row">2016-06 - Plateforme BI</th>
+                            <TD> <a href="\\srv01fic\sofirep\Etudes\Projets\2016-06 - Plateforme BI"> \\srv01fic\sofirep\Etudes\Projets\2016-06 - Plateforme BI </a> </TD>
+                        </TR>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
