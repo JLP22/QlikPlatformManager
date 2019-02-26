@@ -13,6 +13,11 @@ namespace QlikPlateformManager.ViewModels
         public string Title { get; set; }
         public string Resume { get; set; }
         public string Details { get; set; }
+
+        public void addDetails(string details)
+        {
+            Details = Details + "<BR/>" + DateTime.Now.ToString("HH:mm:ss") + "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + details;
+        }
         
     }
 }

@@ -18,6 +18,11 @@ namespace QlikPlateformManager.ViewModels
             //Création de la liste à afficher
             List<SelectListItem> serveursSelectListItem = new List<SelectListItem>();
             dal = new DalEnDur();
+
+            //Ajout d'une première valeur nulle
+            SelectListItem selectListNull = new SelectListItem();
+            serveursSelectListItem.Add(selectListNull);
+
             foreach (Serveur serveur in dal.ObtenirListeServeurs())
             {
                 SelectListItem selectList = new SelectListItem()

@@ -1,16 +1,16 @@
 ﻿@model  QlikPlateformManager.ViewModels.ResultsViewModel
 
 <fieldset class="form-group">
-    <div id="Results" class="alert alert-secondary" role="alert">
-        <div id="Title">
-            <h4 class="alert-heading">@Html.TextBoxFor(model => model.Title)<br /></h4>
+    <div id="Results" class="alert alert-danger" role="alert">
+        <div id="ResultsTitle">
+            <h4 class="alert-heading">@Model.Title<br /></h4>
         </div>
-        <div id="Resume">
+        <div id="ResultsResume">
             <p>@Model.Resume</p>
         </div>
         <hr>
-        <div id="Details">
-            <p class="mb-0">@Model.Details</p>
+        <div id="ResultsDetails">
+            <p class="mb-0">@Html.Raw(Model.Details)</p>
         </div>
     </div>
 </fieldset>
