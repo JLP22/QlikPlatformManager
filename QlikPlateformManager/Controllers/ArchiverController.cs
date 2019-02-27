@@ -26,7 +26,7 @@ namespace QlikPlateformManager.Controllers
         {
             bool isValidGlobalModel = ModelState.IsValid;
             //ResultsViewModel resultArchivage = new ResultsViewModel();
-            //System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(2000);
             
             if (!isValidGlobalModel)
             {
@@ -98,13 +98,25 @@ namespace QlikPlateformManager.Controllers
             }      
         }
 
-        ////Affichage du résultat
-        //public ActionResult Results(ResultsViewModel resultArchivage)
-        //{
-            
+        [HttpPost]
+        public ActionResult SelectionServeur(ArchiverApplicationViewModel archiverApplicationViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                
+            }
 
-        //    System.Threading.Thread.Sleep(2000);
-        //    return PartialView(resultArchivage);
-        //}
-    }
+            archiverApplicationViewModel.Results.Title = "Archivage KO";
+            return PartialView(archiverApplicationViewModel);
+        }
+
+            ////Affichage du résultat
+            //public ActionResult Results(ResultsViewModel resultArchivage)
+            //{
+
+
+            //    System.Threading.Thread.Sleep(2000);
+            //    return PartialView(resultArchivage);
+            //}
+        }
 }
