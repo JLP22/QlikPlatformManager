@@ -7,83 +7,9 @@
 <script type="text/javascript">
     $.validator.unobtrusive.parse(document);
 
-    function onBegin() {
-        $("#ActionStateSpr")[0].style.display = '';
-        $("#ActionStateBtn").attr("disabled", true);
-    }
-    function onComplete() {
-        $("#ActionStateSpr")[0].style.display = 'none';
-        $("#ActionStateBtn").attr("disabled", false);
-        if ($("#ResultsTitle").text().includes("OK")) {
-            $("#Results").attr("class", "alert alert-success");
-        }
-        
-    }
-    function Erreur() {
-        //$("#ArchivageApplicationDiv").html("Une erreur s'est produite lors de la recherche, veuillez réessayer ...");
-        $("#ActionStateSpr")[0].style.display = 'none';
-        $("#ActionStateBtn").attr("disabled", false);
-        //$("#ResultsDiv").html("<b>Hello world!</b>")
-    }
 
-    function CallChangefunc(val) {
-        //window.location.href = "/Controller/Actionmethod?value=" + val;
-        //$("#myselect option:selected").text();
-        //$("div.id_100 select").val("val2");
-        //$("#fluxSource").val("Unknown");
-        //$("#fluxSource").val("1");
-        /*alert($("#serveurSource").val());
-        alert($("#fluxSource").val());
-        alert($("#applicationSource").val());*/
-        //$('#formId').valid()
-        
-        //document.form0 = "Archiver/Application";
 
-        //$("#ActionStateBtn").attr("class", "cancel");
-        //$("#form0").validate();
-        //$("#ActionStateBtn").submit()
-        //$(ActionStateBtn).click();
-
-        var form = $("#form0");
-        alert("toto");
-        preventDefault();
-        if (form.valid()) {
-            form.submit();
-        }
-
-    }
-
-    function mysubmitjs(sender, command) {
-        //var f = $(sender).closest('form');
-        //$('input, select, textarea').each(function () {
-        //    $(this).rules('remove', 'required');
-        //});
-        ////f.find('select').rules('remove');
-        //f.append('<input type="hidden" name="command" value="' + command + '" />');
-
-        //if (f.attr("formnovalidate") != undefined) {
-        //    validator.cancelSubmit = true;
-        //}
-        if ($("#serveurSource").val() != "") {
-            var f = $(sender).closest('form');
-            $("#noValidate").append("@{ Html.EnableClientValidation(false); }");
-            f.submit();
-        }
-        else {
-            //$("#noValidate").Val("");
-            f.submit();
-        }
-        //f.submit();
-      
-        //var f = $("#form0");
-        //f.append('<input type="hidden" name="command" value="' + command + '" />');
-        //f.submit();
-        //alert("toto");
-        //$("#ActionStateBtn").attr("class", "cancel");
-        //alert("toto2");
-        //f.submit();
-        //alert("toto3");
-    }
+    
 
 </script>
 <div class="container-fluid" id="ArchivageApplicationDiv">
@@ -104,7 +30,6 @@
     @*ZONE POST FORMULAIRE*@
     <div class="row">
         <div class="col-sm-12">
-            <div id="noValidate"></div>
             @*@using (Html.BeginForm())*@
             @using (Ajax.BeginForm("Application", "Archiver", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ArchivageApplicationDiv", OnBegin = "onBegin", OnComplete = "onComplete", OnFailure = "Erreur" }))
             {
@@ -116,17 +41,17 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.ServeurSource)
                                 @*@Html.DropDownListFor(model => model.ServeurSource, new SelectList(Model._ServeurSource, "Value", "Text"), new { @class = "form-control", @onchange = "CallChangefunc(this.value)", @id = "serveurSource" })*@
-                                @Html.DropDownListFor(model => model.ServeurSource, new SelectList(Model._ServeurSource, "Value", "Text"), new { @class = "form-control", @onchange = "mysubmitjs(this, 'changelayout');", @id = "serveurSource" })
+                                @Html.DropDownListFor(model => model.ServeurSource, new SelectList(Model._ServeurSource, "Value", "Text"), new { @class = "form-control", @onchange = "OnChangeSelect(this);", @id = "serveurSource" })
                                 @Html.ValidationMessageFor(model => model.ServeurSource, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.FluxSource)
-                                @Html.DropDownListFor(model => model.FluxSource, new SelectList(Model._FluxSource, "Value", "Text"), "", new { @class = "form-control", @id = "fluxSource" })
+                                @Html.DropDownListFor(model => model.FluxSource, new SelectList(Model._FluxSource, "Value", "Text"), "", new { @class = "form-control", @onchange = "OnChangeSelect(this);", @id = "fluxSource" })
                                 @Html.ValidationMessageFor(model => model.FluxSource, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.ApplicationSource)
-                                @Html.DropDownListFor(model => model.ApplicationSource, new SelectList(Model._ApplicationSource, "Value", "Text"), "", new { @class = "form-control", @id = "applicationSource" })
+                                @Html.DropDownListFor(model => model.ApplicationSource, new SelectList(Model._ApplicationSource, "Value", "Text"), "", new { @class = "form-control", @onchange = "OnChangeSelect(this);", @id = "applicationSource" })
                                 @Html.ValidationMessageFor(model => model.ApplicationSource, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-check">
