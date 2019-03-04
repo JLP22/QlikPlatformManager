@@ -2,30 +2,234 @@
     //ViewBag.Title = "Accueil";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+@*<div class="jumbotron">
+        <h1>ASP.NET</h1>
+        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+        <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    </div>*@
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Script</h3>
+                <span class="fas fa-location-arrow"></span>
+            </div>
+            <p class="mb-1">Livrer des scripts sur un ou plusieurs environnements.</p>
+            <small>DEPLOIEMENT</small>
+        </a>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Application</h3>
+                <span class="fas fa-location-arrow"></span>
+            </div>
+            <p class="mb-1">Livrer des applications sur un ou plusieurs environnements.</p>
+            <small>DEPLOIEMENT</small>
+        </a>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Package</h3>
+                <span class="fas fa-location-arrow"></span>
+            </div>
+            <p class="mb-1">Déployer des packages sur un ou plusieurs environnements.</p>
+            <small>DEPLOIEMENT</small>
+        </a>
+    </div>
+    <div class="col-md-3 list-group">
+        <a href="Archiver/Application" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Application</h3>
+                <span class="fas fa-archive"></span>
+            </div>
+            <p class="mb-1">Archiver une application avec ou sans les données.</p>
+            <small>ARCHIVAGE</small>
+        </a>
+    </div>
+</div>
+@*Ligne 2*@
+<div class="row">
+    <div class="col-md-12 list-group">
+        &nbsp;
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Déploiement</h3>
+                <span class="fas fa-calendar-day"></span>
+            </div>
+            <p class="mb-1">Planifier le déploiement d'un package.</p>
+            <small>PLANIFICATION</small>
+        </a>
+    </div>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Archivage</h3>
+                <span class="fas fa-calendar-day"></span>
+            </div>
+            <p class="mb-1">Planifier l'archivage d'une application.</p>
+            <small>PLANIFICATION</small>
+        </a>
+    </div>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Test</h3>
+                <span class="fas fa-calendar-day"></span>
+            </div>
+            <p class="mb-1">Planifier l'exécution d'un jeu de test.</p>
+            <small>PLANIFICATION</small>
+        </a>
+    </div>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Structure</h3>
+                <span class="fas fa-archive"></span>
+            </div>
+            <p class="mb-1">Archiver et exporter la structure d'une application.</p>
+            <small>ARCHIVAGE</small>
+        </a>
+    </div>
+</div>
+
+@*Ligne 3*@
+<div class="row">
+    <div class="col-md-12 list-group">
+        &nbsp;
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Session</h3>
+                <span class="fas fa-eye"></span>
+            </div>
+            <p class="mb-1">Analyser les sessions et l'activité des utilisateurs.</p>
+            <small>SUPERVISION</small>
+        </a>
+    </div>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Performance</h3>
+                <span class="fas fa-eye"></span>
+            </div>
+            <p class="mb-1">Superviser les performances d'un serveur.</p>
+            <small>SUPERVISION</small>
+        </a>
+    </div>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Service</h3>
+                <span class="fas fa-eye"></span>
+            </div>
+            <p class="mb-1">Surveiller l'état actuel des services.</p>
+            <small>SUPERVISION</small>
+        </a>
+    </div>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Dimension & Mesure</h3>
+                <span class="fas fa-edit"></span>
+            </div>
+            <p class="mb-1">Modifier les dimensions et mesures.</p>
+            <small>MISE A JOUR</small>
+        </a>
+    </div>
+</div>
+@*Ligne 4*@
+<div class="row">
+    <div class="col-md-12 list-group">
+        &nbsp;
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Sécurité</h3>
+                <span class="fas fa-check-double"></span>
+            </div>
+            <p class="mb-1">Tester les règles de sécurité.</p>
+            <small>TEST</small>
+        </a>
+    </div>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Réduction</h3>
+                <span class="fas fa-check-double"></span>
+            </div>
+            <p class="mb-1">Tester la réduction de données.</p>
+            <small>TEST</small>
+        </a>
+    </div>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Valeur objet</h3>
+                <span class="fas fa-check-double"></span>
+            </div>
+            <p class="mb-1">Tester les données.</p>
+            <small>TEST</small>
+        </a>
+    </div>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Structure</h3>
+                <span class="fas fa-edit"></span>
+            </div>
+            <p class="mb-1">Modifier des objets.</p>
+            <small>MISE A JOUR</small>
+        </a>
+    </div>
+</div>
+@*Ligne 4*@
+<div class="row">
+    <div class="col-md-12 list-group">
+        &nbsp;
+    </div>
+</div>
+<div class="row">
+<div class="col-md-3 list-group">
+    <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+            <h3 class="mb-1">Résultats</h3>
+            <span class="fas fa-check-double"></span>
+        </div>
+        <p class="mb-1">Consulter le résultat des tests.</p>
+        <small>TEST</small>
+    </a>
+</div>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Doc</h3>
+                <span class="fas fa-info"></span>
+            </div>
+            <p class="mb-1">Documentation utilisateurs.</p>
+            <small>INFOS</small>
+        </a>
+    </div>
+    <div class="col-md-3 list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">Liens</h3>
+                <span class="fas fa-info"></span>
+            </div>
+            <p class="mb-1">Consulter les liens utiles.</p>
+            <small>INFOS</small>
+        </a>
     </div>
 </div>

@@ -8,7 +8,7 @@
     @*    @Styles.Render("~/Content/css")*@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link href="~/Content/mine.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/mine.css" />
     @Scripts.Render("~/bundles/modernizr")
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="@Url.Content("~/Scripts/jquery.validate-vsdoc.js")" type="text/javascript"></script>
@@ -24,6 +24,7 @@
 </head>
 <body>
 
+    <div class="container-fluid">
     <div class="container-fluid">
 
         @*HEADER*@
@@ -86,7 +87,7 @@
             <nav class="col-sm-2">
                 <div class="list-group">
                     <div class="list-group-item list-group-item-dark">
-                        <h6 class="list-group-item-heading "><span class="fas fa-eye"></span> DEPLOIEMENT</h6>
+                        <h6 class="list-group-item-heading "><span class="fas fa-location-arrow"></span> DEPLOIEMENT</h6>
                     </div>
                     @Html.ActionLink("Script", "Script", "Deployer", null, new { @class = "list-group-item list-group-item-action" })
                     @Html.ActionLink("Application", "Application", "Deployer", null, new { @class = "list-group-item list-group-item-action" })
@@ -105,7 +106,7 @@
                     <div class="list-group-item list-group-item-dark">
                         <h6 class="list-group-item-heading "><span class="fas fa-edit"></span> MISE A JOUR</h6>
                     </div>
-                    @Html.ActionLink("Dimension", "Dimension", "MAJ", null, new { @class = "list-group-item list-group-item-action" })
+                    @Html.ActionLink("Dimension & Mesure", "Dimension", "MAJ", null, new { @class = "list-group-item list-group-item-action" })
                     @Html.ActionLink("Structure", "Structure", "MAJ", null, new { @class = "list-group-item list-group-item-action" })
                     <div class="list-group-item list-group-item-dark">
                         <h6 class="list-group-item-heading "><span class="fas fa-eye"></span> SUPERVISION</h6>

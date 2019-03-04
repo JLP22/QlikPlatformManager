@@ -1,6 +1,6 @@
 ﻿using QlikPlateformManager.Utils;
 using QlikPlateformManager.ViewModels;
-using QlikUtils;
+//using QlikUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace QlikPlateformManager.Controllers
         {
             bool isValidGlobalModel = ModelState.IsValid;
             //ResultsViewModel resultArchivage = new ResultsViewModel();
-            System.Threading.Thread.Sleep(2000);
+            
             
             if (!isValidGlobalModel)
             {
@@ -69,7 +69,8 @@ namespace QlikPlateformManager.Controllers
             {
                 //Connexion au serveur
                 archiverApplicationViewModel.Results.addDetails("Connexion au serveur en attente");
-                QlikEngineConnexion myQlik = new QlikEngineConnexion(archiverApplicationViewModel.ServeurSource, "CERPBN", "biadm", "ezabrhBm", null, false);
+                //QlikEngineConnexion myQlik = new QlikEngineConnexion(archiverApplicationViewModel.ServeurSource, "CERPBN", "biadm", "ezabrhBm", null, false);
+                System.Threading.Thread.Sleep(1000);
                 archiverApplicationViewModel.Results.addDetails("Connexion au serveur réussie");
 
                 //Archivage
@@ -77,12 +78,12 @@ namespace QlikPlateformManager.Controllers
                 string archiveRepertoire = @"C:\Temp\";
                 string suffixeArchiveDir = "-ArchiQlik";
 
-                string createdFile = myQlik.ArchivageApplication(sourceApplicationName, sourceApplicationId, archiveRepertoire, sourceApplicationWithData, 7, suffixeArchiveDir);
+                //string createdFile = myQlik.ArchivageApplication(sourceApplicationName, sourceApplicationId, archiveRepertoire, sourceApplicationWithData, 7, suffixeArchiveDir);
 
                 string fileDirectory = archiveRepertoire + DateTime.Now.ToString("yyyyMMdd") + suffixeArchiveDir.Replace(" ", "%20");
-                string filePath = fileDirectory + "\\" + createdFile.Replace(" ", "%20");
+                //string filePath = fileDirectory + "\\" + createdFile.Replace(" ", "%20");
 
-                archiverApplicationViewModel.Results.addDetails("Fichier archivé : " + filePath + " (" + QlikUtils.Utilitaires.FileSizeMo(filePath) + "Mo) &nbsp&nbsp&nbsp&nbsp <a href=\"file:///" + fileDirectory + "\">>Ouvrir le répertoire</a>");
+                //archiverApplicationViewModel.Results.addDetails("Fichier archivé : " + filePath + " (" + QlikUtils.Utilitaires.FileSizeMo(filePath) + "Mo) &nbsp&nbsp&nbsp&nbsp <a href=\"file:///" + fileDirectory + "\">>Ouvrir le répertoire</a>");
 
                 //Reussite
                 archiverApplicationViewModel.Results.Title = "Archivage OK";
