@@ -1,0 +1,32 @@
+﻿@model  QlikPlatformManager.ViewModels.ArchiverApplicationViewModel
+
+<div class="form-group row">
+    @Html.LabelFor(model => model.ServeurSource, new { @class = "col-md-2 col-form-label" })
+    <div class="col-md-4">
+        @Html.DropDownListFor(model => model.ServeurSource, new SelectList(Model._ServeurSource, "Value", "Text"), new { @class = "form-control form-control-sm", @onchange = "OnChangeSelect(this);", @id = "serveurSource" })
+        @Html.ValidationMessageFor(model => model.ServeurSource, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group row">
+    @Html.LabelFor(model => model.FluxSource, new { @class = "col-md-2 col-form-label" })
+    <div class="col-md-4">
+        @Html.DropDownListFor(model => model.FluxSource, new SelectList(Model._FluxSource, "Value", "Text"), "", new { @class = "form-control form-control-sm", @onchange = "OnChangeSelect(this);", @id = "fluxSource" })
+        @Html.ValidationMessageFor(model => model.FluxSource, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group row">
+    @Html.LabelFor(model => model.ApplicationSource, new { @class = "col-md-2 col-form-label" })
+    <div class="col-md-4">
+        @Html.DropDownListFor(model => model.ApplicationSource, new SelectList(Model._ApplicationSource, "Value", "Text"), "", new { @class = "form-control form-control-sm", @onchange = "OnChangeSelect(this);", @id = "applicationSource" })
+        @Html.ValidationMessageFor(model => model.ApplicationSource, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+        <div class="form-check">
+            @Html.CheckBoxFor(model => model.AvecDonnees, new { @class = "form-check-input form-check-input-sm" })
+            @Html.LabelFor(model => model.AvecDonnees, new { @class = "form-check-label form-check-label-sm" })
+        </div>
+    </div>
+</div>
