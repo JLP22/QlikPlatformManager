@@ -1,0 +1,66 @@
+﻿@model QlikPlatformManager.Models.Historique
+
+@{
+//ViewBag.Title = "Details";
+}
+
+<div>
+    <h4>Historique</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilisateur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Utilisateur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Origine)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Origine)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Details)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Details)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Statut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Statut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <div class="form-group">
+        @Html.ActionLink("Editer", "Edit", "Analyser", new { id = Model.ID }, new { @class = "btn btn-success" })
+        @Html.ActionLink("Retour", "Activite", "Analyser", null, new { @class = "btn btn-secondary" })
+    </div>
+</p>

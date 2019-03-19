@@ -16,6 +16,11 @@ namespace QlikPlatformManager
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //Initialisation BDD soit ici, soit web.config, balise <Context>
+            //IDatabaseInitializer<QPMContext> init = new QPMInitializer();
+            //Database.SetInitializer(init);
+            //init.InitializeDatabase(new QPMContext());
         }
     }
 }

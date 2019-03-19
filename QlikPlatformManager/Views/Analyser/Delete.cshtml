@@ -1,0 +1,70 @@
+﻿@model QlikPlatformManager.Models.Historique
+
+@{
+//ViewBag.Title = "Delete";
+}
+
+<div>
+    <h4>Historique</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilisateur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Utilisateur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Origine)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Origine)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Details)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Details)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Statut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Statut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <input type="submit" value="Supprimer" class="btn btn-success" />
+        @*@Html.ActionLink("Retour", "Activite")*@
+        @Html.ActionLink("Retour", "Activite", "Analyser", null, new { @class = "btn btn-secondary" })
+    </div>
+    }
+</div>

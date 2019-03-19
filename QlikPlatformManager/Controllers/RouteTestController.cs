@@ -17,7 +17,7 @@ namespace QlikPlatformManager.Controllers
             string controller = values["controller"] as string;
             controller = char.ToUpper(controller[0]) + controller.Substring(1);
             string nameSpace = this.GetType().Namespace;
-            //var controllerFullName = string.Format("OC_eBibliotheque.Controllers.{0}Controller", controller);
+            
             var controllerFullName = string.Format("{0}.{1}Controller", nameSpace, controller);
             //var controllerFullName = NameSpace + "." + controller;
 

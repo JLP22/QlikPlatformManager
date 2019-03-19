@@ -1,0 +1,84 @@
+﻿@model IEnumerable<QlikPlatformManager.Models.Historique>
+
+@{
+    //ViewBag.Title = "Activité";
+}
+<script type="text/javascript">
+    $.validator.unobtrusive.parse(document);
+</script>
+<div class="container-fluid" id="ArchivageApplicationDiv">
+
+    @*ZONE ARIANE*@
+    <div class="row">
+        <div class="col-sm-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">Archivage</li>
+                    <li class="breadcrumb-item active" aria-current="page">Application</li>
+                </ol>
+            </nav>
+            <br />
+        </div>
+    </div>
+    @*ZONE POST FORMULAIRE*@
+    <div class="row">
+        <div class="col-sm-12">
+            <p>
+                @Html.ActionLink("Créer", "Create", "Analyser", null, new { @class = "btn btn-success" })
+            </p>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Utilisateur)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Origine)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Type)
+                    </th>
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.Details)
+                        </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.Statut)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Utilisateur)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Origine)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.Details)
+                            </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Statut)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>

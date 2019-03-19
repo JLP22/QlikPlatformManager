@@ -38,15 +38,18 @@ namespace QlikPlatformManager.Utils
         {
             //Création de la liste à afficher
             List<SelectListItem> fluxSelectListItem = new List<SelectListItem>();
-            
-            foreach (Flux flux in _flux)
+            if (_flux != null)
             {
-                SelectListItem selectList = new SelectListItem()
+
+                foreach (Flux flux in _flux)
                 {
-                    Text = flux.Nom,
-                    Value = flux.Id
-                };
-                fluxSelectListItem.Add(selectList);
+                    SelectListItem selectList = new SelectListItem()
+                    {
+                        Text = flux.Nom,
+                        Value = flux.Id
+                    };
+                    fluxSelectListItem.Add(selectList);
+                }
             }
             return fluxSelectListItem;
         }
@@ -55,15 +58,17 @@ namespace QlikPlatformManager.Utils
         {
             //Création de la liste à afficher
             List<SelectListItem> applicationSelectListItem = new List<SelectListItem>();
-
-            foreach (Application application in _application)
+            if (_application != null)
             {
-                SelectListItem selectList = new SelectListItem()
+                foreach (Application application in _application)
                 {
-                    Text = application.Nom,
-                    Value = application.Id
-                };
-                applicationSelectListItem.Add(selectList);
+                    SelectListItem selectList = new SelectListItem()
+                    {
+                        Text = application.Nom,
+                        Value = application.Id
+                    };
+                    applicationSelectListItem.Add(selectList);
+                }
             }
             return applicationSelectListItem;
         }
