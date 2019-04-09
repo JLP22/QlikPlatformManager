@@ -150,7 +150,7 @@ namespace QlikPlatformManager.Controllers
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public ActionResult SelectionServeur(ArchiverApplicationViewModel archiverApplicationViewModel)
         {
             if (!ModelState.IsValid)
@@ -160,7 +160,8 @@ namespace QlikPlatformManager.Controllers
 
             archiverApplicationViewModel.Results.Title = "Archivage KO";
             return PartialView(archiverApplicationViewModel);
-        }
+        }*/
+
         //-----------------------------------------------------------------------
         // Alimentation des select Serveur / Flux / Application
         //-----------------------------------------------------------------------
@@ -213,6 +214,27 @@ namespace QlikPlatformManager.Controllers
 
             return View(archiverStructureViewModel);
         }
+
+        [HttpPost]
+        [ActionName("Structure")]
+        public ActionResult StructurePost(ArchiverStructureViewModel archiverStructureViewModel)
+        {
+            try {
+                //Reussite
+                archiverStructureViewModel.Results.Title = "Archivage OK";
+                return PartialView(archiverStructureViewModel);
+
+            }
+            catch (Exception e)
+            {
+                archiverStructureViewModel.ServeurRef.ServeurSourceInfos = "";
+                archiverStructureViewModel.Results.Title = "Archivage KO";
+                archiverStructureViewModel.Results.addDetails("Erreur rencontrée : " + e.Message);
+                archiverStructureViewModel.Results.addDetails("Erreur trace : <BR/>" + e.StackTrace.Replace("\r", "<BR/>").Replace("\n", "<BR/>").Replace("<BR/><BR/>", "<BR/>"));
+                return PartialView(archiverStructureViewModel);
+            }
+        }
+        
     }
 }
 
