@@ -9,8 +9,8 @@ namespace QlikPlatformManager.DAL
     public class Dal : IDal
     {
         private QPMContext bdd;
-        private List<Flux> listeFlux;
-        private List<Application> listeApplications;
+        //private List<Flux> listeFlux;
+        //private List<Application> listeApplications;
 
 
         public Dal()
@@ -42,6 +42,10 @@ namespace QlikPlatformManager.DAL
         //---------------------------------------------------------------------
         public List<Flux> ObtenirListeFlux()
         {
+
+            List<Flux> listeFlux = new List<Flux>{
+                new Flux { Id = "1", Nom = "Dev.Ventes" }
+            };
             return listeFlux;
         }
 
@@ -50,6 +54,11 @@ namespace QlikPlatformManager.DAL
         //---------------------------------------------------------------------
         public List<Application> ObtenirListeApplications()
         {
+            List<Application> listeApplications = new List<Application>{
+                new Application { Id = "ea099413-3c1d-45e0-8874-fa46e1df7ff1", Nom = "AELIA"},
+                new Application { Id = "dc878ecd-887b-4c47-8e33-25d440d64441", Nom = "Chiffres GERS (dev)"},
+                new Application { Id = "xxxxxxxx", Nom = "Erreur"}
+            };
             return listeApplications;
         }
 

@@ -1,7 +1,6 @@
-﻿@model  QlikPlatformManager.ViewModels.ArchiverApplicationViewModel
+﻿@model  QlikPlatformManager.ViewModels.ArchiverStructureViewModel
 @{
-    //ViewBag.Title = "Liens";
-    //Layout = "~/Views/Shared/_LayoutQmc.cshtml";
+
 }
 
 <script type="text/javascript">
@@ -15,7 +14,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active">Archivage</li>
-                    <li class="breadcrumb-item active" aria-current="page">Application</li>
+                    <li class="breadcrumb-item active" aria-current="page">Stucture</li>
                 </ol>
             </nav>
             <br />
@@ -26,15 +25,15 @@
     <div class="row">
         <div class="col-sm-12">
             @*@using (Html.BeginForm())*@
-            @using (Ajax.BeginForm("Application", "Archiver", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ContentDiv", OnBegin = "onBegin", OnComplete = "onComplete", OnFailure = "Erreur" }))
+            @using (Ajax.BeginForm("Structure", "Archiver", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ContentDiv", OnBegin = "onBegin", OnComplete = "onComplete", OnFailure = "Erreur" }))
             {
                 @*ZONE SAISIE*@
                 <div class="row">
                     <div class="col-md-12">
                         <fieldset class="form-group">
-                            <legend>Sélection de l'application à archiver</legend>
+                            <legend>Sélection de l'application de référence</legend>
                             <br />
-                            @Html.Partial("ApplicationConnexion", Model)
+                            @Html.Partial("ConnexionServeur", Model.ServeurRef)
                             <br />
 
                             <div class="form-group row">

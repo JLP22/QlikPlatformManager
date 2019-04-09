@@ -1,0 +1,39 @@
+﻿@model  QlikPlatformManager.ViewModels.ArchiverApplicationViewModel
+
+@*Entête scripts*@
+<script src="@Url.Content("~/Scripts/mine/utils.js")" type="text/javascript"></script>
+@*<script>
+    //Variables à utilisées en javascript
+    var _infosApplication = @Html.Raw(Json.Encode(Model.ConnexionSource.ApplicationsSourceInfos));
+</script>*@
+
+@*HTML Contenu*@
+@*@Html.Partial("ConnexionServeur", Model.ConnexionSource,
+    new ViewDataDictionary(Html.ViewData)
+    {
+        TemplateInfo = new System.Web.Mvc.TemplateInfo
+        {
+            HtmlFieldPrefix = "ConnexionSource"
+        }
+    })*@
+
+@{
+    string name = Html.NameFor(m => m.ConnexionSource).ToString();
+    string prefix = Html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
+    ViewDataDictionary viewData = new ViewDataDictionary(Html.ViewData)
+    {
+        TemplateInfo = new TemplateInfo { HtmlFieldPrefix = prefix }
+    };
+}
+@Html.Partial("ConnexionServeur", Model.ConnexionSource, viewData)
+
+@*@Html.Partial("ConnexionServeur", Model.ConnexionSource)*@
+<div class="form-group row">
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+        <div class="form-check">
+            @Html.CheckBoxFor(model => model.AvecDonnees, new { @class = "form-check-input form-check-input-sm" })
+            @Html.LabelFor(model => model.AvecDonnees, new { @class = "form-check-label form-check-label-sm" })
+        </div>
+    </div>
+</div>
