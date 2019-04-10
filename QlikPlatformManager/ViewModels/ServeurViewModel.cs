@@ -34,5 +34,6 @@ namespace QlikPlatformManager.ViewModels
         //Infos par Id d'application
         public Dictionary<string,string> ApplicationsSourceInfos { get; set; }
         public List<SelectListItem> _ApplicationSource { get; set; }
+
     }
 }

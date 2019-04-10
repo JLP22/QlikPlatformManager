@@ -53,27 +53,32 @@ namespace QlikPlatformManager.Controllers
         public ActionResult ApplicationPost(ArchiverApplicationViewModel archiverApplicationViewModel)
         {
             bool isValidGlobalModel = ModelState.IsValid;
-            ServeurViewModel myConnexion = archiverApplicationViewModel.ConnexionSource;
-            myConnexion.ServeurSourceInfos = "";
+            ServeurViewModel archiverConnexion = archiverApplicationViewModel.ConnexionSource;
+            archiverConnexion.ServeurSourceInfos = "";
             //--------------------------------------------------------------
             //Connexion serveur
-            string serveurSource = myConnexion.ServeurSource;
+            string serveurSource = archiverConnexion.ServeurSource;
+            
             try
             {
-                //Purge connections précédentes si nécessaire
-                if (QConnexion != null && QConnexion.Host != myConnexion.ServeurSource) QConnexion.PurgeConnexion();
+                //Liste serveur
+                string sessionName = "Connexion_" + User.Identity.Name;
+                QConnexion = (QlikEngineConnexion)Common.GetObjectInCache(sessionName);
 
-                //Connexion au serveur sélectionné si pas de connection déjà existante sur ce serveur
-                if (QConnexion == null || QConnexion.Host != myConnexion.ServeurSource)
+                if (QConnexion != null && QConnexion.Host != archiverConnexion.ServeurSource) QConnexion.PurgeConnexion();
+                if (QConnexion == null || QConnexion.Host != archiverConnexion.ServeurSource)
                 {
-                    //bool isLocalConnection = GetIsServerLocalConnection(selectedHost, _Parametrage);
+                    //Création de la connexion
                     bool isLocalConnection = false;
                     archiverApplicationViewModel.Results.addDetails("Connexion au serveur en attente");
-                    QConnexion = new QlikEngineConnexion(myConnexion.ServeurSource, "CERPBN", "biadm", "ezabrhBm", QConnexion, isLocalConnection);
+                    QConnexion = new QlikEngineConnexion(archiverConnexion.ServeurSource, "CERPBN", "biadm", "ezabrhBm", QConnexion, isLocalConnection);
                     archiverApplicationViewModel.Results.addDetails("Connexion au serveur réussie");
-                    //Alimentation des listes (serveur, flux et source)
-                    PopulateList(archiverApplicationViewModel.ConnexionSource);
+                    //Mise en cache de la connexion
+                    Common.SetObjectInCache(sessionName, QConnexion);
                 }
+                
+                //Alimentation des listes (serveur, flux et source)
+                PopulateList(archiverApplicationViewModel.ConnexionSource);
 
                 //--------------------------------------------------------------
                 //Retour à la vue si ni flux, ni application sélectionnée
@@ -82,17 +87,16 @@ namespace QlikPlatformManager.Controllers
                     PopulateList(archiverApplicationViewModel.ConnexionSource);
                     archiverApplicationViewModel.Results.Title = "";
                     return PartialView(archiverApplicationViewModel);
-                }
-
+                }               
 
                 //--------------------------------------------------------------
                 //Valide les valeurs saisie dans la vue pour traitement
-                string sourceServeurId = myConnexion.ServeurSource;
-                string sourceServeurName = Common.GetText(myConnexion._ServeurSource, sourceServeurId);
-                string sourceFluxId = myConnexion.FluxSource;
-                string sourceFluxName = Common.GetText(myConnexion._FluxSource, sourceFluxId);
-                string sourceApplicationId = myConnexion.ApplicationSource;
-                string sourceApplicationName = Common.GetText(myConnexion._ApplicationSource, sourceApplicationId);
+                string sourceServeurId = archiverConnexion.ServeurSource;
+                string sourceServeurName = Common.GetText(archiverConnexion._ServeurSource, sourceServeurId);
+                string sourceFluxId = archiverConnexion.FluxSource;
+                string sourceFluxName = Common.GetText(archiverConnexion._FluxSource, sourceFluxId);
+                string sourceApplicationId = archiverConnexion.ApplicationSource;
+                string sourceApplicationName = Common.GetText(archiverConnexion._ApplicationSource, sourceApplicationId);
                 bool sourceApplicationWithData = archiverApplicationViewModel.AvecDonnees;
 
                 //Par défaut resultat = erreur
@@ -101,7 +105,7 @@ namespace QlikPlatformManager.Controllers
                 //archiverApplicationViewModel.Results.addDetails("Etape de l'archivage");
 
                 //Recherche de l'Id de l'application
-                string applicationSourceName = myConnexion._ApplicationSource.Where(x => x.Value == myConnexion.ApplicationSource).DefaultIfEmpty(new SelectListItem(){}).First().Text;
+                string applicationSourceName = archiverConnexion._ApplicationSource.Where(x => x.Value == archiverConnexion.ApplicationSource).DefaultIfEmpty(new SelectListItem(){}).First().Text;
                 if (String.IsNullOrEmpty(sourceServeurId) || String.IsNullOrEmpty(sourceServeurName) || String.IsNullOrEmpty(sourceFluxId) || String.IsNullOrEmpty(sourceFluxName) || String.IsNullOrEmpty(sourceApplicationId) || String.IsNullOrEmpty(sourceApplicationName))
                 {
                     if(String.IsNullOrEmpty(sourceServeurId)) archiverApplicationViewModel.Results.addDetails("Id du serveur non trouvé...");
@@ -135,7 +139,7 @@ namespace QlikPlatformManager.Controllers
             }
             catch (Exception e)
             {
-                myConnexion.ServeurSourceInfos = "";
+                archiverConnexion.ServeurSourceInfos = "";
                 archiverApplicationViewModel.Results.Title = "Archivage KO";
                 archiverApplicationViewModel.Results.addDetails("Erreur rencontrée : " + e.Message);
                 archiverApplicationViewModel.Results.addDetails("Erreur trace : <BR/>" + e.StackTrace.Replace("\r", "<BR/>").Replace("\n", "<BR/>").Replace("<BR/><BR/>", "<BR/>"));
@@ -150,38 +154,20 @@ namespace QlikPlatformManager.Controllers
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
 
-        /*[HttpPost]
-        public ActionResult SelectionServeur(ArchiverApplicationViewModel archiverApplicationViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                
-            }
-
-            archiverApplicationViewModel.Results.Title = "Archivage KO";
-            return PartialView(archiverApplicationViewModel);
-        }*/
-
         //-----------------------------------------------------------------------
         // Alimentation des select Serveur / Flux / Application
         //-----------------------------------------------------------------------
         public void PopulateList(ServeurViewModel model)
         {
-
             //Liste serveur
             string listName = "serveurList";
-            if (MemoryCache.Default.Contains(listName))
+            model._ServeurSource = (List<SelectListItem>)Common.GetObjectInCache(listName);
+            if (model._ServeurSource == null)
             {
-                // The SubjectList already exists in the cache,
-                model._ServeurSource = (List<SelectListItem>)MemoryCache.Default.Get(listName);
-            }
-            else
-            {
-                // The select list does not yet exists in the cache, fetch items from the data store.
                 model._ServeurSource = Common.ToSelectListItem(Dal.ObtenirListeServeurs());
-                // Cache the list in memory for 15 minutes.
-                MemoryCache.Default.Add(listName, model._ServeurSource, DateTime.Now.AddMinutes(15));
+                Common.SetObjectInCache(listName, model._ServeurSource);
             }
+
             //Liste flux et application
             if (QConnexion != null)
             {

@@ -189,6 +189,31 @@ namespace QlikPlatformManager.Utils
             return _applicationOrdonne;
 
         }
+
+        //--------------------------------------------------------------------
+        //Récupère Objet en cache
+        //--------------------------------------------------------------------
+        public static object GetObjectInCache(string regionName)
+        {
+            //Objet existe dans le cache
+            if (MemoryCache.Default.Contains(regionName)) return MemoryCache.Default.Get(regionName);
+            else return null;
+        }
+        //--------------------------------------------------------------------
+        //Met Objet en cache
+        //--------------------------------------------------------------------
+        public static object SetObjectInCache(string regionName, Object objet)
+        {
+            //Objet existe déjà dans le cache
+            if (GetObjectInCache(regionName) != null) return false;
+            else
+            {
+                //Ajout objet dans le cache
+                MemoryCache.Default.Add(regionName, objet, DateTime.Now.AddMinutes(15));
+                return true;
+            }
+        }
+
     }
 
 }
