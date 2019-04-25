@@ -14,7 +14,7 @@ $(document).ready(function () {
 function onBegin() {
     $("#ActionStateSpr")[0].style.display = '';
     $("#ActionStateBtn").attr("disabled", true);
-    $("#form0 :input").attr("disabled", true);
+    $("#" + this.id + " :input").attr("disabled", true);
 }
 /**
  * Gestion du style du bouton de soumission du formulaire AJAX (après soumission)
@@ -22,20 +22,48 @@ function onBegin() {
  * @memberof Mine.Utils
  */
 function onComplete() {
+    debugger;
     $("#ActionStateSpr")[0].style.display = 'none';
     $("#ActionStateBtn").attr("disabled", false);
     if ($("#ResultsTitle").text().includes("OK")) {
         $("#Results").attr("class", "alert alert-success");
     }
+  
+    //Affichage des infobulles si nécessaire (champs select et spans associés)
+    SetSpanTitle();
+    
+}
+/**
+ * Affichage des span correspondant au Select d'un serveur, flux ou application
+ * @method
+  * @memberof Mine.Utils
+ */
+function SetSpanTitle() {
+    //Pour chaque select de la page
+    $("select").each(function (index) {
+        var idSelect = this.id;
+        var idSpan = idSelect.replace("_Select", "_Span");
+        //Si Select d'un serveur ou d'un flux
+        if (idSelect.indexOf("Serveur_Select") || idSelect.indexOf("Flux_Select")) {
+            //Si renseigné, Affichage coche
+            if ($("#" + idSelect + " option:selected").text() != "") $("#" + idSpan)[0].style.display = '';
+            //alert("Affichage span " + idSpan);
 
-    //Affichage coche de validation pour serveur et flux car soumis
-    if ($("#serveurSource option:selected").text() != "") $("#ConnexionFromServerSpan")[0].style.display = '';
-    if ($("#fluxSource option:selected").text() != "") $("#ConnexionFromFluxSpan")[0].style.display = '';
-    //Affichage coche de validation pour application si Archivage OK
-    if ($("#applicationSource option:selected").text() != "" && $("#ResultsTitle").text().includes("OK")) {
-        SetApplicationTitle("#applicationSource", "#ConnexionFromApplicationSpan");
-        $("#ConnexionFromApplicationSpan")[0].style.display = '';
-    }
+        }
+        //Cas Select d'application
+        else if (idSelect.indexOf("Application_Select")) {
+            //Si renseigné et résultat du post du formulaire OK
+            if ($("#" + idSelect + " option:selected").text() != "" && $("#ResultsTitle").text().includes("OK")) {
+                //Alimente infobulle
+                SetApplicationTitle("#" + idSelect, "#" + idSpan);
+                //Affichage coche
+                $("#" + idSpan)[0].style.display = '';
+                //alert("Affichage span " + idSpan);
+            }
+        }
+        //console.log(index + ": " + $(this).text());
+        //alert(index + ": " + this.id);
+    });
 }
 /**
  * Gestion du style du bouton de soumission du formulaire AJAX (après soumission et erreur)
@@ -55,66 +83,79 @@ function Erreur() {
  * @argument {Eement} element
  */
 function OnChangeSelect(sender) {
+    debugger;
+    var suffixSelect = "_Select";
+    var suffixSpan = "_Span";
+
+    var prefix = sender.id.substr(0, sender.id.replace(suffixSelect, "").lastIndexOf("_")+1);
+    var idServeur_Select = prefix + "Serveur" + suffixSelect;
+    var idServeur_Span = prefix + "Serveur" + suffixSpan;
+    var idFlux_Select = prefix + "Flux" + suffixSelect;
+    var idFlux_Span = prefix + "Flux" + suffixSpan;
+    var idApplication_Select = prefix + "Application" + suffixSelect;
+    var idApplication_Span = prefix + "Application" + suffixSpan;
 
     var senderId = "#" + sender.id;
     //Valeur sélectionnée
-    if ($(senderId).text() != "") {
+    //if ($(senderId).val() != "")
+    if ($("#" + sender.id + " option:selected").text() != "")
+    {
         //Sélection d'un serveur
-        if (senderId== "#serveurSource") {
+        if (sender.id == idServeur_Select) {
             //Cacher coche de validation pour serveur si pas sélectionné
-            //if ($("#serveurSource option:selected").text() == "") $("#ConnexionFromServerSpan")[0].style.display = 'none';
-            $("#ConnexionFromServerSpan")[0].style.display = 'none';
+            //if ($("#serveur option:selected").text() == "") $("#ConnexionFromServerSpan")[0].style.display = 'none';
+
+            $("#"+idServeur_Span)[0].style.display = 'none';
 
             //RAZ des autres select
-            $('#fluxSource option:eq(0)').prop('selected', true);
-            $("#ConnexionFromFluxSpan")[0].style.display = 'none';
-            $('#applicationSource option:eq(0)').prop('selected', true);
-            $("#ConnexionFromApplicationSpan")[0].style.display = 'none';
+            $("#" + idFlux_Select + " option:eq(0)").prop('selected', true);
+            $("#" + idFlux_Span)[0].style.display = 'none';
+            $("#" + idApplication_Select + " option:eq(0)").prop('selected', true);
+            $("#" + idApplication_Span)[0].style.display = 'none';
 
             //Suppression de la validation cliente du champ
-            $("#fluxSource").rules('remove', 'required');
-            $("#applicationSource").rules('remove', 'required');
+            $("#"+idFlux_Select).rules('remove', 'required');
+            $("#"+idApplication_Select).rules('remove', 'required');
 
             //Envoi du formulaire
             //var f = $(sender).closest('form');
             //f.submit();
-            $(senderId).closest('form').submit();
+            $("#"+sender.id).closest('form').submit();
 
             //reactivation de la validation
-            //alertIfRequired("#fluxSource");
-            $("#fluxSource").rules("add", "required");
-            //alertIfRequired("#fluxSource");
-            $("#applicationSource").rules("add", "required");
+            //alertIfRequired("#flux");
+            $("#" + idFlux_Select).rules("add", "required");
+            //alertIfRequired("#flux");
+            $("#" + idApplication_Select).rules("add", "required");
         }
         //Sélection d'un flux
-        else if (senderId == "#fluxSource") {
+        else if (sender.id == idFlux_Select) {
             //RAZ select application
-            $('#applicationSource option:eq(0)').prop('selected', true);
-            $("#ConnexionFromApplicationSpan")[0].style.display = 'none';
+            $("#" + idApplication_Select + " option:eq(0)").prop('selected', true);
+            $("#" + idApplication_Span)[0].style.display = 'none';
             //Suppression de la validation cliente du champ
-            $("#applicationSource").rules('remove', 'required');
+            $("#" + idApplication_Select).rules('remove', 'required');
             //Envoi du formulaire
             $(senderId).closest('form').submit();
             //reactivation de la validation
-            $("#applicationSource").rules("add", "required");
+            $("#" + idApplication_Select).rules("add", "required");
 
             //Cacher coche de validation pour serveur si pas sélectionné
-            //if ($("#fluxSource option:selected").text() == "") $("#ConnexionFromFluxSpan")[0].style.display = 'none';
-            $("#ConnexionFromFluxSpan")[0].style.display = 'none';
+            //if ($("#flux option:selected").text() == "") $("#ConnexionFromFluxSpan")[0].style.display = 'none';
+            $("#" + idApplication_Span)[0].style.display = 'none';
         }
         //Sélection d'une application
-        else if (senderId == "#applicationSource") {
+        else if (sender.id == idApplication_Select) {
 
             //Affichage coche de validation pour application si selectionnée
-            if ($("#applicationSource option:selected").text() != "")
+            if ($("#"+idApplication_Select+" option:selected").text() != "")
             {
                 //Alimentation de la balise title
-                SetApplicationTitle("#applicationSource", "#ConnexionFromApplicationSpan");
+                SetApplicationTitle("#" + idApplication_Select, "#" + idApplication_Span);
                 //Affichage de la coche
-                $("#ConnexionFromApplicationSpan")[0].style.display = '';
+                $("#" + idApplication_Span)[0].style.display = '';
             }
-            else $("#ConnexionFromApplicationSpan")[0].style.display = 'none';
-            //$('#fluxSource option:eq(0)').prop('selected', true);            
+            else $("#" + idApplication_Span)[0].style.display = 'none';         
         }
     }
 }
@@ -125,8 +166,8 @@ function OnChangeSelect(sender) {
  * @memberof Mine.Utils
  * @argument {Eement} element
  */
-function SetApplicationTitle(idElementApplicationSource, idElementApplicationSpan) {
-    var newTitle = GetinfosApplicationTitle(idElementApplicationSource);
+function SetApplicationTitle(idElementApplication, idElementApplicationSpan) {
+    var newTitle = GetinfosApplicationTitle(idElementApplication);
     //alert("newTitle = " + newTitle);
     //$(idElementApplicationSpan).prop('title', newTitle); // En commentaire sinon ajoute infobulle std par dessus
     $(idElementApplicationSpan).attr("data-original-title", newTitle);

@@ -6,6 +6,7 @@
 <script type="text/javascript">
     $.validator.unobtrusive.parse(document);
 </script>
+
 <div class="container-fluid" id="ContentDiv">
 
     @*ZONE ARIANE*@
@@ -23,38 +24,64 @@
 
     @*ZONE POST FORMULAIRE*@
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
             @*@using (Html.BeginForm())*@
-            @using (Ajax.BeginForm("Structure", "Archiver", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ContentDiv", OnBegin = "onBegin", OnComplete = "onComplete", OnFailure = "Erreur" }))
+            @using (Ajax.BeginForm("Structure", "Archiver",  null, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ContentDiv", OnBegin = "onBegin", OnComplete = "onComplete", OnFailure = "Erreur" }, new { @id = "ServeurRef" }))
             {
                 @*ZONE SAISIE*@
                 <div class="row">
-                    <div class="col-md-12">
+                    @*--------Colonne de gauche---------*@
+                    <div class="col-md-5">
                         <fieldset class="form-group">
-                            <legend>Sélection de l'application de référence</legend>
+                            <legend>Application de référence</legend>
                             <br />
-                            @Html.Partial("ConnexionServeur", Model.ServeurRef)
+                            @*@{
+                        string name = Html.NameFor(m => m.ServeurRef).ToString();
+                        string prefix = Html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
+                        ViewDataDictionary viewData = new ViewDataDictionary(Html.ViewData)
+                        {
+                            TemplateInfo = new TemplateInfo { HtmlFieldPrefix = prefix }
+                        };
+                    }
+                    @Html.Partial("ConnexionServeur", Model.ServeurRef, viewData)*@
+
+                            @*Appel vue partielle*@
+                            @Html.Partial("StructureConnexion", Model.ServeurRef, Model.GetViewData(Html, "ServeurRef"))
+                            @*@Html.Partial("StructureConnexion", Model.ServeurRef)*@
+
                             <br />
-
-                            <div class="form-group row">
-                                <div class="col-md-2">
-                                    <button id="ActionStateBtn" type="submit" class="btn btn-success">
-                                        @*disabled*@
-                                        <span id="ActionStateSpr" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> @*hidden*@
-                                        Archiver
-                                    </button>
-                                </div>
-                                <div class="col-md-4">
-
-                                </div>
-                            </div>
                         </fieldset>
+                    </div>
+                    @*--------Colonne de séparation---------*@
+                    <div class="col-md-1">
+                    </div>
+                    @*--------Colonne de droite---------*@
+                    <div class="col-md-5">
+                        <fieldset class="form-group">
+                            <legend>Application de comparaison</legend>
+                            <br />
+                            @*@Html.Partial("StructureConnexion", Model.ServeurRef, Model.GetViewData(Html, "ServeurRef"))*@
+                            <br />
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                <button id="ActionStateBtn" type="submit" class="btn btn-outline-success btn-sm btn-lg btn-block">
+                                    @*disabled*@
+                                    <span id="ActionStateSpr" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span>
+                                    Comparer
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 @*ZONE RESULTATS*@
                 <div class="row">
-                    <div id="ResultsDiv" class="col-sm-12">
+                    <div id="ResultsDiv" class="col-md-12">
                         @if (!String.IsNullOrEmpty(Model.Results.Title))
                         {
                             @Html.Partial("Results", Model.Results)

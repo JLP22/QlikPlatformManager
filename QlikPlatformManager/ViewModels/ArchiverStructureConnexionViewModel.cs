@@ -8,25 +8,26 @@ using QlikUtils;
 
 namespace QlikPlatformManager.ViewModels
 {
-    public class ArchiverStructureViewModel
+    public class ArchiverStructureConnexionViewModel
     {
         //Constructeur
-        public ArchiverStructureViewModel()
+        public ArchiverStructureConnexionViewModel()
         {
-            ServeurRef = new ArchiverStructureConnexionViewModel();
-            ServeurComp = new ArchiverStructureConnexionViewModel();
+            Connexion = new ServeurViewModel();
         }
 
         //Propriétés
 
-        /* Serveur de référence */
-        public ArchiverStructureConnexionViewModel ServeurRef { get; set; }
-
-        /* Serveur de comparaison*/
-        public ArchiverStructureConnexionViewModel ServeurComp { get; set; } 
+        /* Serveur de connexion */
+        public ServeurViewModel Connexion { get; set; }
 
         /* Resultat */
         public ResultsViewModel Results = new ResultsViewModel();
+
+        //[Display(Name = "Exporter au format JSON")]
+        //public bool ExportJson { get; set; }
+        //[Display(Name = "Exporter au format Xls")]
+        //public bool ExportXls { get; set; }
 
         //Méthodes
 
@@ -34,13 +35,12 @@ namespace QlikPlatformManager.ViewModels
         // Préfixe les champs de vue partielle par le nom de l'objet parent
         //Nécessaire pour les sous-objet
         //------------------------------------------------------------------
-        public ViewDataDictionary GetViewData(HtmlHelper<ArchiverStructureViewModel> html, string serveur)
+        public ViewDataDictionary GetViewData(HtmlHelper<ArchiverStructureConnexionViewModel> html)
         {
-            string name = "";
-            if (serveur == "ServeurComp") name = html.NameFor(m => m.ServeurComp).ToString();
-            else name = html.NameFor(m => m.ServeurRef).ToString();
+            string name = html.NameFor(m => m.Connexion).ToString();
 
-            string prefix = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
+            //string prefix = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
+            string prefix = name;
             ViewDataDictionary viewData = new ViewDataDictionary(html.ViewData)
             {
                 TemplateInfo = new TemplateInfo { HtmlFieldPrefix = prefix }

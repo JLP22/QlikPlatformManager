@@ -84,7 +84,7 @@
         <div class="row">
 
             @*MENU*@
-            <nav class="col-sm-2">
+            <nav class="col-md-2">
                 <div class="list-group">
                     <div class="list-group-item list-group-item-dark">
                         <h6 class="list-group-item-heading "><span class="fas fa-location-arrow"></span> DEPLOIEMENT</h6>
@@ -130,15 +130,11 @@
             </nav>
 
             @*CONTENU*@
-            <main class="col-sm-10">
-                <div class="row">
-                    <div class="container">
-                        @*<div class="col-sm-12 colonne-centree">*@
-                        @RenderBody()
-                        @*</div>*@
-                    </div>
-                </div>
-            </main>
+
+            <main class="container-fluid col-md-offset-1 col-md-9">
+                @RenderBody()
+            </main>            
+
         </div>
 
         @*FOOTER*@

@@ -26,33 +26,32 @@
     <div class="row">
         <div class="col-sm-12">
             @*@using (Html.BeginForm())*@
-            @using (Ajax.BeginForm("Application", "Archiver", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ContentDiv", OnBegin = "onBegin", OnComplete = "onComplete", OnFailure = "Erreur" }))
+            @using (Ajax.BeginForm("Application", "Archiver", null, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ContentDiv", OnBegin = "onBegin", OnComplete = "onComplete", OnFailure = "Erreur" }, new { @id = "Connexion" }))
             {
                 @*ZONE SAISIE*@
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="offset-md-3 col-md-5">
                         <fieldset class="form-group">
                             <legend>Sélection de l'application à archiver</legend>
                             <br />
                             @Html.Partial("ApplicationConnexion", Model)
                             <br />
-
-                            <div class="form-group row">
-                                <div class="col-md-2">
-                                    <button id="ActionStateBtn" type="submit" class="btn btn-success">
-                                        @*disabled*@
-                                        <span id="ActionStateSpr" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> @*hidden*@
-                                        Archiver
-                                    </button>
-                                </div>
-                                <div class="col-md-4">
-
-                                </div>
-                            </div>
                         </fieldset>
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="offset-md-3 col-md-9">
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                <button id="ActionStateBtn" type="submit" class="btn btn-outline-success btn-sm btn-lg btn-block">
+                                    @*disabled*@
+                                    <span id="ActionStateSpr" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> @*hidden*@
+                                    Archiver
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @*ZONE RESULTATS*@
                 <div class="row">
                     <div id="ResultsDiv" class="col-sm-12">

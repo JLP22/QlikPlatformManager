@@ -1,0 +1,33 @@
+﻿@model  QlikPlatformManager.ViewModels.ArchiverStructureConnexionViewModel
+
+@*Entête scripts*@
+<script src="@Url.Content("~/Scripts/mine/utils.js")" type="text/javascript"></script>
+
+@*Appel vue partielle*@
+@Html.Partial("ConnexionServeur", Model.Connexion, Model.GetViewData(Html))
+@*@Html.Partial("ConnexionServeur", Model.Connexion)*@
+
+@*@Html.Partial("ConnexionServeur", Model.Connexion)*@
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
+        @*col-md-offset-3*@
+        <div class="row form-inline">
+            <div class="col-md-3"></div>
+            <div class="col">
+                <button id="ActionStateBtn" type="submit" class="btn btn-outline-info btn-sm btn-lg btn-block">
+                    <span id="ActionStateSprXls" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span>
+                    Export Xls
+                </button>
+            </div>
+            <div class="col">
+                <button id="ActionStateBtn" type="submit" class="btn btn-outline-info btn-sm btn-lg btn-block">
+                    <span id="ActionStateSprJson" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span>
+                    Export Json
+                </button>
+            </div>
+            <div class="col-md-1"> </div>
+        </div>
+    </div>
+</div>
+
