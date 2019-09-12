@@ -44,3 +44,8 @@
     /* If max-width does not work, try using width instead */
     /*width: 5000px;*/
 }
+
+.enConstruction {
+    color: #b1bac3;
+    font-style: italic;
+}

@@ -8,10 +8,10 @@ using QlikUtils;
 
 namespace QlikPlatformManager.ViewModels
 {
-    public class ArchiverStructureConnexionViewModel
+    public class DeployerApplicationConnexionViewModel
     {
         //Constructeur
-        public ArchiverStructureConnexionViewModel()
+        public DeployerApplicationConnexionViewModel()
         {
             Connexion = new ServeurViewModel();
         }
@@ -21,15 +21,9 @@ namespace QlikPlatformManager.ViewModels
         /* Serveur de connexion */
         public ServeurViewModel Connexion { get; set; }
 
-        /*Export Json demandé */
-        public bool ExportJson { get; set; }
-        /*Export Xls demandé */
-        public bool ExportXls { get; set; }
-
         /* Resultat */
         public ResultsViewModel Results = new ResultsViewModel();
-
-        
+       
 
         //Méthodes
 
@@ -37,7 +31,7 @@ namespace QlikPlatformManager.ViewModels
         // Préfixe les champs de vue partielle par le nom de l'objet parent
         //Nécessaire pour les sous-objet
         //------------------------------------------------------------------
-        public ViewDataDictionary GetViewData(HtmlHelper<ArchiverStructureConnexionViewModel> html)
+        public ViewDataDictionary GetViewData(HtmlHelper<DeployerApplicationConnexionViewModel> html)
         {
             string name = html.NameFor(m => m.Connexion).ToString();
 

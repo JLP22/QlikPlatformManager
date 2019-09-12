@@ -1,30 +1,23 @@
-﻿@model  QlikPlatformManager.ViewModels.ArchiverStructureConnexionViewModel
+﻿@model  QlikPlatformManager.ViewModels.DeployerApplicationConnexionViewModel
 
 @*Entête scripts*@
 <script src="@Url.Content("~/Scripts/mine/utils.js")" type="text/javascript"></script>
 
 @*Appel vue partielle*@
 @Html.Partial("ConnexionServeur", Model.Connexion, Model.GetViewData(Html))
-@*@Html.Partial("ConnexionServeur", Model.Connexion)*@
 
-@*@Html.Partial("ConnexionServeur", Model.Connexion)*@
-<div class="row">
+@*<div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-10">
-        @*col-md-offset-3*@
         <div class="row form-inline">
             <div class="col-md-3"></div>
             <div class="col">
-                @*<button id="ActionExportXlsBtn" type="submit" name="ExportXls" formaction=@Url.Action("ExportXls") formmethod="
-                    " class="btn btn-outline-info btn-sm btn-lg btn-block">*@
-                @*<button id="ActionExportXlsBtn" type="submit" name="ExportXls" onclick="onClicExportXls(@Html.Raw(Json.Encode(Model.Connexion)))" formaction=@Url.Action("ExportXls") formmethod="post" class="btn btn-outline-info btn-sm btn-lg btn-block">*@
                 <button id="ActionExportXlsBtn" type="submit" name="ExportXls" onclick="OnClicExport('@Html.NameFor(m => m)', this, '@Html.NameFor(m => m.ExportXls).ToString().Replace(".", "_")')" class="btn btn-outline-info btn-sm btn-lg btn-block">
                     <span id="StateExportXlsSpr" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span>
                     Export Xls
                 </button>
                 <div class="form-check">
                     @Html.CheckBoxFor(m => m.ExportXls, new { @id = @Html.NameFor(m => m.ExportXls).ToString().Replace(".", "_"), @style = "display:none" })
-                    @*@Html.CheckBoxFor(m => m.ExportXls, new { @checked= (Model.ExportXls ? "checked":"" ) })*@
                 </div>
             </div>
             <div class="col">
@@ -34,11 +27,10 @@
                 </button>
                 <div class="form-check">
                     @Html.CheckBoxFor(m => m.ExportJson, new { @id = @Html.NameFor(m => m.ExportJson).ToString().Replace(".", "_"), @style = "display:none" })
-                    @*@Html.NameFor(m => m.ExportJson)*@
                 </div>
             </div>
             <div class="col-md-1"> </div>
         </div>
     </div>
-</div>
+</div>*@
 

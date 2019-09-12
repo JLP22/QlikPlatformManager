@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Runtime.Caching;
-using QlikPlatformManager.DAL;
 using QlikUtils;
 using static QlikUtils.QlikObjectJson;
+using System.Net;
+using QlikPlatformManager.ViewModels;
 
 namespace QlikPlatformManager.Utils
 {
@@ -74,6 +75,28 @@ namespace QlikPlatformManager.Utils
                 }
             }
             return applicationSelectListItem;
+        }
+
+        public static List<SelectListItem> ToSelectListItem(List<Modele> _List)
+        {
+            //Création de la liste à afficher
+            List<SelectListItem> _item = new List<SelectListItem>();
+            //Ajout d'une première valeur nulle
+            SelectListItem selectListNull = new SelectListItem();
+            _item.Add(selectListNull);
+            if (_List != null)
+            {
+                foreach (Modele elem in _List)
+                {
+                    SelectListItem selectList = new SelectListItem()
+                    {
+                        Text = elem.Name,
+                        Value = elem.ID.ToString()
+                    };
+                    _item.Add(selectList);
+                }
+            }
+            return _item;
         }
 
         //---------------------------------------------------------------------------------------------
@@ -214,6 +237,24 @@ namespace QlikPlatformManager.Utils
             }
         }
 
+        //--------------------------------------------------------------------
+        //Récupère nom ou ip du poste client
+        //--------------------------------------------------------------------
+        public static string GetHostName(bool isHostWithDomainAsked = false)
+        {
+            System.Web.HttpContext context = System.Web.HttpContext.Current;
+            String hostWithDomain, host = "";
+
+            if (Dns.GetHostEntry(context.Request.UserHostAddress) != null)
+                hostWithDomain = Dns.GetHostEntry(context.Request.UserHostAddress).HostName;
+            else
+                hostWithDomain = "Erreur.Erreur";
+            host = hostWithDomain.Split('.')[0];
+
+            if (isHostWithDomainAsked) return hostWithDomain;
+            else return host;
+
+        }
     }
 
 }

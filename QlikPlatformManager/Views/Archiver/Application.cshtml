@@ -26,7 +26,7 @@
     <div class="row">
         <div class="col-sm-12">
             @*@using (Html.BeginForm())*@
-            @using (Ajax.BeginForm("Application", "Archiver", null, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ContentDiv", OnBegin = "onBegin", OnComplete = "onComplete", OnFailure = "Erreur" }, new { @id = "Connexion" }))
+            @using (Ajax.BeginForm("Application", "Archiver", null, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ContentDiv", OnBegin = "OnBegin(this)", OnComplete = "OnComplete", OnFailure = "OnFailure" }, new { @id = "ApplicationForm" }))
             {
                 @*ZONE SAISIE*@
                 <div class="row">
@@ -45,14 +45,24 @@
                             <div class="col-md-2">
                                 <button id="ActionStateBtn" type="submit" class="btn btn-outline-success btn-sm btn-lg btn-block">
                                     @*disabled*@
-                                    <span id="ActionStateSpr" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> @*hidden*@
                                     Archiver
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                @*ZONE RESULTATS*@
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <div class="offset-md-3 col-md-5">
+                                @*<span id="ActionStateSpr" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span>*@
+                                <div id="ActionStateSpr"class="spinner-grow text-success" role="status" style="display:none">
+                                    <span class="sr-only">In process...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div id="ResultsDiv" class="col-sm-12">
                         @if (!String.IsNullOrEmpty(Model.Results.Title))

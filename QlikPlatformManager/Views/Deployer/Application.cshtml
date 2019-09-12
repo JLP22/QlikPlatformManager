@@ -1,6 +1,7 @@
-﻿@model  QlikPlatformManager.ViewModels.ArchiverStructureViewModel
+﻿
+@model  QlikPlatformManager.ViewModels.DeployerApplicationViewModel
 @{
-    ViewBag.Title = "Archiver structure";
+
 }
 
 <script type="text/javascript">
@@ -25,17 +26,16 @@
     @*ZONE POST FORMULAIRE*@
     <div class="row">
         <div class="col-md-12">
-            @*@using (Html.BeginForm())*@
-            @using (Ajax.BeginForm("Structure", "Archiver", null, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ContentDiv", OnBegin = "OnBegin(this)", OnComplete = "OnComplete", OnFailure = "OnFailure" }, new { @id = "StructureForm" }))
+            @using (Ajax.BeginForm("Application", "Deployer", null, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ContentDiv", OnBegin = "OnBegin(this)", OnComplete = "OnComplete", OnFailure = "OnFailure" }, new { @id = "StructureForm" }))
             {
                 @*ZONE SAISIE*@
                 <div class="row">
                     @*--------Colonne de gauche---------*@
                     <div class="col-md-5">
                         <fieldset class="form-group">
-                            <legend>Application de référence</legend>
+                            <legend>Application source</legend>
                             <br />
-                            @Html.Partial("StructureConnexion", Model.ServeurRef, Model.GetViewData(Html, "ServeurRef"))
+                            @Html.Partial("ApplicationConnexion", Model.ServeurSource, Model.GetViewData(Html, "ServeurSource"))
                             <br />
                         </fieldset>
                     </div>
@@ -45,11 +45,28 @@
                     @*--------Colonne de droite---------*@
                     <div class="col-md-5">
                         <fieldset class="form-group">
-                            <legend>Application de comparaison</legend>
+                            <legend>Application cible</legend>
                             <br />
-                            @Html.Partial("StructureConnexion", Model.ServeurComp, Model.GetViewData(Html, "ServeurComp"))
+                            @Html.Partial("ApplicationConnexion", Model.ServeurCible, Model.GetViewData(Html, "ServeurCible"))
                             <br />
                         </fieldset>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <div class="form-check">
+                            @{
+                                if (Model.ServeurSource.Connexion.QEngineConnexion == null || Model.ServeurSource.Connexion.QEngineConnexion.ServerMode)
+                                {
+                                    @Html.CheckBoxFor(model => model.AvecDonnees, new { @class = "form-check-input form-check-input-sm" })
+                                    @Html.LabelFor(model => model.AvecDonnees, new { @class = "form-check-label form-check-label-sm" })
+                                }
+                                else
+                                {
+                                    @Html.Raw("<div class=\"font-weight-lighter font-italic\"> A partir du desktop, aucune suppression de données possible : livraison brute </div>");
+                                }
+                            }
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -58,7 +75,7 @@
                             <div class="col-md-2">
                                 <button id="ActionStateBtn" type="submit" class="btn btn-outline-success btn-sm btn-lg btn-block">
                                     @*disabled*@
-                                    Comparer
+                                    Livrer
                                 </button>
                             </div>
                         </div>
@@ -68,7 +85,6 @@
                     <div class="col-md-12">
                         <div class="form-group row">
                             <div class="col-md-2">
-                                @*<span id="ActionStateSpr" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span>*@
                                 <div id="ActionStateSpr" class="spinner-grow text-success" role="status" style="display:none">
                                     <span class="sr-only">In process...</span>
                                 </div>

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Configuration;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Data.Entity;
 using QlikPlatformManager.Models;
+using QlikPlatformManager.Utils;
 
 namespace QlikPlatformManager.DAL
 {
@@ -15,11 +13,14 @@ namespace QlikPlatformManager.DAL
     {
         //Seed = Appel auto après création de la BDD pour alimentation données de test ou initialisation
         protected override void Seed(QPMContext context) 
-        {
+        {            
             // --------- Serveurs ---------
+            //Nom est en clair dans la liste
             List<Serveur> serveurs = new List<Serveur>{
-                    new Serveur { Id = "1", Nom = "SRV99BI" , Url =  @"http://bi.cerpba.int", Description = "Développement"},
-                    new Serveur { Id = "2", Nom = "SRV02BI" , Url =  @"http://bi.cerpba.com", Description = "Recette/Prod"}
+                    new Serveur { Id = "1", Nom = "SRV99BI" , Url =  ConfigurationManager.AppSettings["Dev"], Description = "Développement"},
+                    new Serveur { Id = "2", Nom = "SRV02BI" , Url =  ConfigurationManager.AppSettings["Rec-Prod"], Description = "Recette/Prod"}
+                    //Ne pas mettre dans l'initialisation de la bdd
+                    //,new Serveur { Id = "3", Nom =  Common.GetHostName() , Url = ConfigurationManager.AppSettings["Localhost"], Description = "Desktop"}
             };
             serveurs.ForEach(s => context.Serveurs.Add(s));
 
