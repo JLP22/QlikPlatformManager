@@ -26,16 +26,18 @@ namespace QlikPlatformManager.Controllers
         [ActionName("Donnees")]
         public ActionResult DonneesPost(TesterDonneesViewModel modelIHM)
         {
+
+            //if (modelIHM.SelectedApplications != null) modelIHM.SelectedEnvironnements = modelIHM.SelectedEnvironnements.Where(val => !String.IsNullOrEmpty(val)).ToArray();
+            if (modelIHM.SelectedEnvironnements != null) modelIHM.SelectedEnvironnements = modelIHM.SelectedEnvironnements.Distinct().ToArray();
+
+            //if (modelIHM.SelectedApplications != null) modelIHM.SelectedApplications = modelIHM.SelectedApplications.Where(val => !String.IsNullOrEmpty(val)).ToArray();
+            if (modelIHM.SelectedApplications != null) modelIHM.SelectedApplications = modelIHM.SelectedApplications.Distinct().ToArray();
+
             TesterDonneesViewModel param = InitilizeData(modelIHM);
             param.SelectedModele = modelIHM.SelectedModele;
             param.SelectedApplications = modelIHM.SelectedApplications;
             param.SelectedEnvironnements = modelIHM.SelectedEnvironnements;
 
-            //add code to manipulate user groups
-            //foreach (var item in user.SelectedGroups)
-            //{
-            //    
-            //}
             return PartialView(param);
         }
 
@@ -58,7 +60,6 @@ namespace QlikPlatformManager.Controllers
             TesterDonneesViewModel param = new TesterDonneesViewModel();
 
             //------------- Environnements ---------------------------------
-            //Liste de base
             param._AllEnvironnements = new List<ModeleEnvironnement>();
             foreach (var env in _paramEnvironnements)
             {
@@ -66,13 +67,6 @@ namespace QlikPlatformManager.Controllers
                 string name = (string)env.Value.Split(';')[0];
                 param._AllEnvironnements.Add(new ModeleEnvironnement { ID = id, Name = name });
             }
-            //Par défaut
-            /*param._TesterEnvironnements = new List<ModeleEnvironnement>()
-            {
-                param._AllEnvironnements[1],
-                param._AllEnvironnements[2]
-            };
-            param.SelectedEnvironnements = param._TesterEnvironnements.Select(x => x.ID).ToArray();*/
 
             //------------- Modele ---------------------------------
             List<Modele> _modeles = new List<Modele>();
@@ -118,17 +112,18 @@ namespace QlikPlatformManager.Controllers
                         string host = env.Value.Split(';')[2];
                         string appl = app.Name;
                         string objet = GetObjetViZu(modelIHM.SelectedModele);
-                        //string appID = app.;
 
-                        //string name app
+                        string tmp_objOTF ="";
+                        string selectedModel = param._Modeles.Where(model => (model.Value == modelIHM.SelectedModele)).First().Text;
+
+                        if (selectedModel == "Vente") tmp_objOTF = JsonConvert.SerializeObject(new Ventes_OTF().Colonnes); 
+                        else if (selectedModel == "Stock") tmp_objOTF = JsonConvert.SerializeObject(new Stock_OTF().Colonnes); 
+                                                
                         ModeleVizualisation objOTF = new ModeleVizualisation
                         {
-                            //ServeurViewModel deployerConnexionSource = deployerApplicationViewModel.ServeurSource.Connexion
-                            //deployerConnexionSource.Connect(User.Identity.Name)
-                            ApplicationID = "qa-"+ app.Name.Replace(" ", "") + appSuffix.Replace(" ", ""),
                             ApplicationName = app.Name + " " + appSuffix,
                             Host = host,
-                            Objet = JsonConvert.SerializeObject(new ObjetOTF().Colonnes)
+                            Objet = tmp_objOTF
                         };
                         _visuOTF.Add(objOTF);
                     }

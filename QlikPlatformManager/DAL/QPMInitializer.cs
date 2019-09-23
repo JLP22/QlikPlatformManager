@@ -8,8 +8,8 @@ namespace QlikPlatformManager.DAL
 {
     //TO DO : à remplacer par "Migrations Code First" pour la prod
     //Suppression et recréation de la base à chaque fois que le modèle change
-    //public class QPMInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<QPMContext>
-    public class QPMInitializer : System.Data.Entity.DropCreateDatabaseAlways<QPMContext>
+    //public class QPMInitializer : System.Data.Entity.DropCreateDatabaseAlways<QPMContext>
+    public class QPMInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<QPMContext>
     {
         //Seed = Appel auto après création de la BDD pour alimentation données de test ou initialisation
         protected override void Seed(QPMContext context) 

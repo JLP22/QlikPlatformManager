@@ -38,7 +38,7 @@
                                     @foreach (var cb in Model._AllEnvironnements)
                                     {
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="SelectedEnvironnements" value=@cb.ID id=@cb.ID @{if (Model.SelectedEnvironnements != null && Model.SelectedEnvironnements.Contains(cb.ID)) { <text> checked='checked' </text>  }}>
+                                            <input class="form-check-input" type="checkbox" name="SelectedEnvironnements" value=@cb.ID id=@cb.ID @{if (Model.SelectedEnvironnements != null && Model.SelectedEnvironnements.Contains(cb.ID)) { <text> checked </text>  } } onclick="RazSelectedList('SelectedEnvironnements')">
                                             <label class="form-check-label" for=@cb.ID>@cb.Name</label>
                                         </div>
                                     }
@@ -47,7 +47,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                @Html.TextBoxFor(model => model.SelectedEnvironnements, new { @style = "display:none" })
+                                @Html.TextBoxFor(model => model.SelectedEnvironnements, new { @style = "display:none", @id = "SelectedEnvironnements" })
                                 @Html.ValidationMessageFor(model => model.SelectedEnvironnements, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                                         @foreach (var cb in Model._AllApplications)
                                         {
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="SelectedApplications" value=@cb.ID id=@cb.ID @{if (Model.SelectedApplications != null && Model.SelectedApplications.Contains(cb.ID)) { <text> checked='checked' </text>  }}>
+                                                <input class="form-check-input" type="checkbox" name="SelectedApplications" value=@cb.ID id=@cb.ID @{if (Model.SelectedApplications != null && Model.SelectedApplications.Contains(cb.ID)) { <text> checked='checked' </text>  }} onclick="RazSelectedList('SelectedApplications')">
                                                 <label class="form-check-label" for=@cb.ID>@cb.Name</label>
                                             </div>
                                         }
@@ -92,7 +92,7 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    @Html.TextBoxFor(model => model.SelectedApplications, new { @style = "display:none" })
+                                    @Html.TextBoxFor(model => model.SelectedApplications, new { @style = "display:none", @id = "SelectedApplications" })
                                     @Html.ValidationMessageFor(model => model.SelectedApplications, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -141,32 +141,52 @@
 
                 if (Model._VizuOTF != null && Model._VizuOTF.Count() > 0)
                 {
-                 
                     foreach (var vizu in Model._VizuOTF)
                     {
                         @*Objet constuit à la volée*@
-                        string id = vizu.ApplicationID;
-                        string idCol = "qh-" + vizu.Host + vizu.ApplicationID;
+                        string idAppname = "qa-" + vizu.ApplicationName.Replace(" ", "");
+                        string idHostAppname = "qh-" + vizu.Host + idAppname;
+                        string idHostAppnameState = idAppname + "_State";
+                        @*string idBtn = "btn-" + vizu.Host + vizu.ApplicationID;
+                    <div class="row">
+                        <div class="col-md-12"><button id=@idBtn>Afficher</button></div>
+                    </div>*@
                         <div class="row">
-                            <div  id=@idCol class="col-md-12">
+                            <div id=@idHostAppname class="col-md-11">
                                 <p>@vizu.ApplicationName</p>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div  id=@idCol class="col-md-12">
-                                <div class="qlik-embed" data-qlik-objid=@id id=@id data-qlik-host=@vizu.Host></div>
-                                <script>
-                                    CompleteQlikVizu('@vizu.Host', '@vizu.ApplicationName', '@id', ' @Html.Raw(vizu.Objet)');   
-                                </script>
+                            <div class="col-md-1">
+                                <div id=@idHostAppnameState class="spinner-border spinner-border-sm text-success" role="status">
+                                    <span class="sr-only">In process...</span>
+                                </div>
                             </div>
                         </div>
-                        //System.Threading.Thread.Sleep(5000);
+                        <div class="row">
+                            <div id=@idHostAppname class="col-md-12">
+                                <div class="qlik-embed" id=@idAppname data-qlik-appname="@vizu.ApplicationName" data-qlik-host=@vizu.Host></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><br /></div>
+                        </div>
+
+                        @*<script>
+                        FillQlikVizu('@vizu.Host', '@vizu.ApplicationName', '@idApp', '@Html.Raw(vizu.Objet)');
+                        //document.getElementById('dsp_btn').onclick = function () {
+                        //    FillQlikVizu('@vizu.Host', '@vizu.ApplicationName', '@id', '@Html.Raw(vizu.Objet)');
+                        //}
+                    </script>*@
                     }
+                    <script>
+
+                        FillAllQlikVizu('@Html.Raw(@Model._VizuOTF.Last().Objet)');
+                        @*document.getElementById('dsp_btn').onclick = function () {
+                        FillQlikVizu('@vizu.Host', '@vizu.ApplicationName', '@id', '@Html.Raw(vizu.Objet)');
+                        }*@
+
+                    </script>
                 }
-
-
             }
-
         </div>
     </div>
 </div>

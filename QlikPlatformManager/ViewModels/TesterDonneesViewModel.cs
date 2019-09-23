@@ -32,7 +32,6 @@ namespace QlikPlatformManager.ViewModels
     public class ModeleVizualisation
     {
         public string Host { get; set; } //ex 'bi.cerpba.int'
-        public string ApplicationID { get; set; }
         public string ApplicationName { get; set; }
         public string Objet { get; set; }
     }
@@ -80,24 +79,117 @@ namespace QlikPlatformManager.ViewModels
         }
     }
 
-    public class ObjetOTF
+    public class Ventes_OTF
     {
         public string Type { get; set; } //ex 'bi.cerpba.int'
         public Object[] Colonnes { get; set; }
         public Object Options { get; set; }
         //Constructeur
-        public ObjetOTF()
+        public Ventes_OTF()
         {
+            FieldAttributes fmtMonetaire = new FmtMonetaire().NumFormat;
+            FieldAttributes fmtQuantite = new FmtQuantite().NumFormat;
             Type = "table";
             Options = new Options { title = "My title"};
             Colonnes = new Object[]{
                 new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=%CODESI"}, FieldLabels=new List<string>() { "%CODESI"} }, AttributeDimensions=null, AttributeExpressions = null },
-                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Societe.Code"}, FieldLabels=new List<string>() { "Societe"} }, AttributeDimensions=null, AttributeExpressions = null },
                 new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=%SOURCE"}, FieldLabels=new List<string>() { "Source"} }, AttributeDimensions=null, AttributeExpressions = null },
-                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(Ventes.CaBrut)", Label ="CaBrut" }, AttributeDimensions=null, AttributeExpressions=null }
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Annee"}, FieldLabels=new List<string>() { "Annee" } }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Mois"}, FieldLabels=new List<string>() { "Mois" } }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Societe.Code"}, FieldLabels=new List<string>() { "Societe"} }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Count(%CODESI)", Label ="NbLigne", NumFormat = fmtQuantite }, AttributeDimensions=null, AttributeExpressions=null },
+                //Ventes facturées
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(Ventes.QuantiteFacturee)", Label ="Qt_Facturée", NumFormat = fmtQuantite  }, AttributeDimensions=null, AttributeExpressions=null },
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(Ventes.CaBrut)", Label ="CaBrut", NumFormat = fmtMonetaire }, AttributeDimensions=null, AttributeExpressions=null },
+                //Ventes manque
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(VentesManquees.Quantite)", Label ="Qt_Manquées", NumFormat = fmtQuantite }, AttributeDimensions=null, AttributeExpressions=null },
+                //Pharamml
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(DemandesPharmaML.NonSatisfaite)", Label ="Qt_DIPNs", NumFormat = fmtQuantite }, AttributeDimensions=null, AttributeExpressions=null }
             };
         }    
     }
+
+    public class Stock_OTF
+    {
+        public string Type { get; set; } //ex 'bi.cerpba.int'
+        public Object[] Colonnes { get; set; }
+        public Object Options { get; set; }
+        //Constructeur
+        public Stock_OTF()
+        {
+            FieldAttributes fmtMonetaire = new FmtMonetaire().NumFormat;
+            FieldAttributes fmtQuantite = new FmtQuantite().NumFormat;
+            Type = "table";
+            Options = new Options { title = "My title" };
+            Colonnes = new Object[]{
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=%CODESI"}, FieldLabels=new List<string>() { "%CODESI"} }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=%SOURCE"}, FieldLabels=new List<string>() { "Source"} }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Annee"}, FieldLabels=new List<string>() { "Annee" } }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Mois"}, FieldLabels=new List<string>() { "Mois" } }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Societe.Code"}, FieldLabels=new List<string>() { "Societe"} }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=SocieteEtablissement.Code"}, FieldLabels=new List<string>() { "Societe"} }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Count(%CODESI)", Label ="NbLigne" }, AttributeDimensions=null, AttributeExpressions=null },
+                //Entree-Sortie
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Stock.CodeMouvement"}, FieldLabels=new List<string>() { "Societe"} }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(Stock.QuantiteMouvement)", Label ="Qt_Mvt", NumFormat = fmtQuantite }, AttributeDimensions=null, AttributeExpressions=null },
+                // Etat
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(Stock.Quantite)", Label ="Qt_Stock", NumFormat = fmtQuantite }, AttributeDimensions=null, AttributeExpressions=null },
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(Stock.MontantValorisation)", Label ="Mt_Valorisation", NumFormat = fmtMonetaire }, AttributeDimensions=null, AttributeExpressions=null },
+                //Calcul des besoins
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(Stock.QuantiteBesoinsSemainePlus1)", Label ="Qt_BesoinsSP1", NumFormat = fmtQuantite}, AttributeDimensions=null, AttributeExpressions=null }
+            };
+        }
+    }
+
+    public class FmtMonetaire
+    {
+        public FieldAttributes NumFormat { get; set; }
+        public FmtMonetaire()
+        {
+            NumFormat = new FieldAttributes();
+            NumFormat.Type = FieldAttrType.MONEY;
+            NumFormat.nDec = 2;
+            NumFormat.UseThou = 0;
+            NumFormat.Fmt = "# ##0,00 €;-# ##0,00 €";
+            NumFormat.Dec = ",";
+            NumFormat.Thou = " ";
+        }
+    }
+
+    public class FmtQuantite
+    {
+        public FieldAttributes NumFormat { get; set; }
+        public FmtQuantite()
+        {
+            NumFormat = new FieldAttributes();
+            NumFormat.Type = FieldAttrType.FIX;
+            NumFormat.nDec = 2;
+            NumFormat.UseThou = 0;
+            NumFormat.Fmt = "# ##0";
+            NumFormat.Dec = ",";
+            NumFormat.Thou = " ";
+        }
+    }
+    /*
+    //Monétaire
+    "qNumFormat": {
+            "qType": "M",
+            "qnDec": 2,
+            "qUseThou": 0,
+            "qFmt": "# ##0,00 €;-# ##0,00 €",
+            "qDec": ",",
+            "qThou": " "
+          }
+    //Nombre entier
+    "qNumFormat": {
+            "qType": "M",
+            "qnDec": 2,
+            "qUseThou": 0,
+            "qFmt": "# ##0,00 €;-# ##0,00 €",
+            "qDec": ",",
+            "qThou": " "
+        }
+         */
 
     public class Options
     {

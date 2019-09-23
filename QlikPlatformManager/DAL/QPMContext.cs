@@ -11,6 +11,15 @@ namespace QlikPlatformManager.DAL
         //{
         //}
 
+        /*public QPMContext() : base("QPMContext")
+        {
+            Database.SetInitializer<QPMContext>(null);
+            //Database.SetInitializer<QPMContext>(new DropCreateDatabaseIfModelChanges<QPMContext>());
+            //Database.SetInitializer<SchoolDBContext>(new DropCreateDatabaseIfModelChanges<SchoolDBContext>());
+            //Database.SetInitializer<SchoolDBContext>(new DropCreateDatabaseAlways<SchoolDBContext>());
+            //Database.SetInitializer<SchoolDBContext>(new SchoolDBInitializer());
+        }*/
+
         //Tables
         public DbSet<Historique> Historiques { get; set; }
         public DbSet<Serveur> Serveurs { get; set; }
