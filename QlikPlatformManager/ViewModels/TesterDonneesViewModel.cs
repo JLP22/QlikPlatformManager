@@ -90,14 +90,14 @@ namespace QlikPlatformManager.ViewModels
             FieldAttributes fmtMonetaire = new FmtMonetaire().NumFormat;
             FieldAttributes fmtQuantite = new FmtQuantite().NumFormat;
             Type = "table";
-            Options = new Options { title = "My title"};
+            Options = new Options { title = "Modèle Ventes"};
             Colonnes = new Object[]{
                 new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=%CODESI"}, FieldLabels=new List<string>() { "%CODESI"} }, AttributeDimensions=null, AttributeExpressions = null },
                 new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=%SOURCE"}, FieldLabels=new List<string>() { "Source"} }, AttributeDimensions=null, AttributeExpressions = null },
                 new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Annee"}, FieldLabels=new List<string>() { "Annee" } }, AttributeDimensions=null, AttributeExpressions = null },
                 new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Mois"}, FieldLabels=new List<string>() { "Mois" } }, AttributeDimensions=null, AttributeExpressions = null },
                 new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Societe.Code"}, FieldLabels=new List<string>() { "Societe"} }, AttributeDimensions=null, AttributeExpressions = null },
-                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Count(%CODESI)", Label ="NbLigne", NumFormat = fmtQuantite }, AttributeDimensions=null, AttributeExpressions=null },
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Count(%CODESI)", Label ="Nb lignes", NumFormat = fmtQuantite }, AttributeDimensions=null, AttributeExpressions=null },
                 //Ventes facturées
                 new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(Ventes.QuantiteFacturee)", Label ="Qt_Facturée", NumFormat = fmtQuantite  }, AttributeDimensions=null, AttributeExpressions=null },
                 new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(Ventes.CaBrut)", Label ="CaBrut", NumFormat = fmtMonetaire }, AttributeDimensions=null, AttributeExpressions=null },
@@ -120,7 +120,7 @@ namespace QlikPlatformManager.ViewModels
             FieldAttributes fmtMonetaire = new FmtMonetaire().NumFormat;
             FieldAttributes fmtQuantite = new FmtQuantite().NumFormat;
             Type = "table";
-            Options = new Options { title = "My title" };
+            Options = new Options { title = "Modèle Stock" };
             Colonnes = new Object[]{
                 new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=%CODESI"}, FieldLabels=new List<string>() { "%CODESI"} }, AttributeDimensions=null, AttributeExpressions = null },
                 new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=%SOURCE"}, FieldLabels=new List<string>() { "Source"} }, AttributeDimensions=null, AttributeExpressions = null },
@@ -128,7 +128,7 @@ namespace QlikPlatformManager.ViewModels
                 new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Mois"}, FieldLabels=new List<string>() { "Mois" } }, AttributeDimensions=null, AttributeExpressions = null },
                 new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Societe.Code"}, FieldLabels=new List<string>() { "Societe"} }, AttributeDimensions=null, AttributeExpressions = null },
                 new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=SocieteEtablissement.Code"}, FieldLabels=new List<string>() { "Societe"} }, AttributeDimensions=null, AttributeExpressions = null },
-                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Count(%CODESI)", Label ="NbLigne" }, AttributeDimensions=null, AttributeExpressions=null },
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Count(%CODESI)", Label ="Nb lignes", NumFormat = fmtQuantite }, AttributeDimensions=null, AttributeExpressions=null },
                 //Entree-Sortie
                 new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Stock.CodeMouvement"}, FieldLabels=new List<string>() { "Societe"} }, AttributeDimensions=null, AttributeExpressions = null },
                 new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(Stock.QuantiteMouvement)", Label ="Qt_Mvt", NumFormat = fmtQuantite }, AttributeDimensions=null, AttributeExpressions=null },
@@ -137,6 +137,32 @@ namespace QlikPlatformManager.ViewModels
                 new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(Stock.MontantValorisation)", Label ="Mt_Valorisation", NumFormat = fmtMonetaire }, AttributeDimensions=null, AttributeExpressions=null },
                 //Calcul des besoins
                 new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(Stock.QuantiteBesoinsSemainePlus1)", Label ="Qt_BesoinsSP1", NumFormat = fmtQuantite}, AttributeDimensions=null, AttributeExpressions=null }
+            };
+        }
+    }
+
+    public class Telephonie_OTF
+    {
+        public string Type { get; set; } //ex 'bi.cerpba.int'
+        public Object[] Colonnes { get; set; }
+        public Object Options { get; set; }
+        //Constructeur
+        public Telephonie_OTF()
+        {
+            FieldAttributes fmtMonetaire = new FmtMonetaire().NumFormat;
+            FieldAttributes fmtQuantite = new FmtQuantite().NumFormat;
+            Type = "table";
+            Options = new Options { title = "Modèle Telephonie" };
+            Colonnes = new Object[]{
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=%CODESI"}, FieldLabels=new List<string>() { "%CODESI"} }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Annee"}, FieldLabels=new List<string>() { "Annee" } }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Mois"}, FieldLabels=new List<string>() { "Mois" } }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Semaine"}, FieldLabels=new List<string>() { "Semaine" } }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="date(Min(%DATE))", Label ="Du" }, AttributeDimensions=null, AttributeExpressions=null },
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="date(Max(%DATE))", Label ="Au" }, AttributeDimensions=null, AttributeExpressions=null },
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=POLE"}, FieldLabels=new List<string>() { "Pôle"} }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="count(%SICLI)", Label ="Nb lignes", NumFormat = fmtQuantite }, AttributeDimensions=null, AttributeExpressions=null },                
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(appel_traité)", Label ="Nb appels traités", NumFormat = fmtQuantite }, AttributeDimensions=null, AttributeExpressions=null }
             };
         }
     }

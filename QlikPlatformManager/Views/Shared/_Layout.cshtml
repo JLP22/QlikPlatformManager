@@ -159,7 +159,8 @@
     @*    @Scripts.Render("~/bundles/jquery")*@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-    <script src="http://bi.cerpba.int/resources/assets/external/requirejs/require.js"></script>
-    
+    @*Attention KO avec http://bi.cerpba.com/resources/assets/external/requirejs/require.js => à voir pourquoi??? car pb reviendra lors de la migration srv02bi*@
+    <script src="http://bi.cerpba.com/resources/assets/external/requirejs/require.js"></script>
+
 </body>
 </html>

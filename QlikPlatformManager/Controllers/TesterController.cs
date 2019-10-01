@@ -111,13 +111,14 @@ namespace QlikPlatformManager.Controllers
                         string appSuffix = env.Value.Split(';')[1];
                         string host = env.Value.Split(';')[2];
                         string appl = app.Name;
-                        string objet = GetObjetViZu(modelIHM.SelectedModele);
+                        //string objet = GetObjetViZu(modelIHM.SelectedModele);
 
                         string tmp_objOTF ="";
                         string selectedModel = param._Modeles.Where(model => (model.Value == modelIHM.SelectedModele)).First().Text;
 
                         if (selectedModel == "Vente") tmp_objOTF = JsonConvert.SerializeObject(new Ventes_OTF().Colonnes); 
                         else if (selectedModel == "Stock") tmp_objOTF = JsonConvert.SerializeObject(new Stock_OTF().Colonnes); 
+                        else if (selectedModel == "Téléphonie") tmp_objOTF = JsonConvert.SerializeObject(new Telephonie_OTF().Colonnes); 
                                                 
                         ModeleVizualisation objOTF = new ModeleVizualisation
                         {
@@ -141,6 +142,8 @@ namespace QlikPlatformManager.Controllers
             return param;
         }
 
+
+        /*
         //-----------------------------------------------------------
         // Création de l'objet au format JSON de type TABLE à afficher
         //-----------------------------------------------------------
@@ -167,11 +170,21 @@ namespace QlikPlatformManager.Controllers
                 };
             }
 
+            else if(modelSelected == "Téléphonie")
+            {
+                colonnes = new Object[]{
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=%CODESI"}, FieldLabels=new List<string>() { "%CODESI"} }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=Societe.Code"}, FieldLabels=new List<string>() { "Societe"} }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxDimension { Def = new NxInlineDimensionDef{ FieldDefs=new List<string>() { "=%SOURCE"}, FieldLabels=new List<string>() { "Source"} }, AttributeDimensions=null, AttributeExpressions = null },
+                new NxMeasure { Def = new NxInlineMeasureDef{ Def ="Sum(Ventes.CaBrut)", Label ="CaBrut" }, AttributeDimensions=null, AttributeExpressions=null }
+                };
+            }
+
             else {
                 colonnes = new Object[] { };
             }
 
             return JsonConvert.SerializeObject(colonnes);
-        }
+        }*/
     }
 }
