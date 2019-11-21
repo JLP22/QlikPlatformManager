@@ -20,6 +20,9 @@ namespace QlikPlatformManager.ViewModels
         {
             ServeurSource = new DeployerApplicationConnexionViewModel();
             ServeurCible = new DeployerApplicationConnexionViewModel();
+
+            //L'objet à besoin de connaitre la config à plusieurs endroits pour ses traitements
+            qpmConfig = Common.QPMGetConfig();
         }
 
         //Propriétés
@@ -33,6 +36,8 @@ namespace QlikPlatformManager.ViewModels
         /* Livraison avec les données */
         [Display(Name = "Livrer avec données et variables (inutile à partir du desktop : livraison en l'état)")]
         public bool AvecDonnees { get; set; }
+
+        private QPMConfiguration qpmConfig;
 
         /* Resultat */
         public ResultsViewModel Results = new ResultsViewModel();
@@ -75,9 +80,11 @@ namespace QlikPlatformManager.ViewModels
                     {
                         //Chemin du QVF source 
                         string qvsFullName = String.Empty;
-                        string serveurSourceNom = ConfigurationManager.AppSettings[ServeurSource.Connexion.QEngineConnexion.Host];
+                        //string serveurSourceNom = ConfigurationManager.AppSettings[ServeurSource.Connexion.QEngineConnexion.Host];
+                        string serveurSourceNom = qpmConfig.Global.Environnements[ServeurSource.Connexion.QEngineConnexion.Host];
                         if (serveurSourceNom != null)
-                            qvsFullName = @"\\" + serveurSourceNom  + ConfigurationManager.AppSettings["ServerAppsDir"] + ServeurSource.Connexion.Application;
+                            //qvsFullName = @"\\" + serveurSourceNom  + ConfigurationManager.AppSettings["ServerAppsDir"] + ServeurSource.Connexion.Application;
+                            qvsFullName = @"\\" + serveurSourceNom  + qpmConfig.Global.Repertoires["ServerAppsDir"] + ServeurSource.Connexion.Application;
                         //Mesure de la taille du QVF
                         if (GetFileInfos(qvsFullName).SizeMo > 1000)
                         {

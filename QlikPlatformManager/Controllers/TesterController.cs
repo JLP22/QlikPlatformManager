@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿
+using Newtonsoft.Json;
 using Qlik.Engine;
 using QlikPlatformManager.Utils;
 using QlikPlatformManager.ViewModels;
@@ -9,6 +10,10 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using QlikAuthNet;
+using QlikUtils.Connection;
+using QlikUtils;
+using System.Security.Cryptography.X509Certificates;
 
 namespace QlikPlatformManager.Controllers
 {
@@ -104,12 +109,15 @@ namespace QlikPlatformManager.Controllers
                 foreach (var env in _paramEnvironnements.Where(env => modelIHM.SelectedEnvironnements.Contains((string)env.Key)))
                 //foreach (var env in param._AllEnvironnements.Where(env => modelIHM.SelectedEnvironnements.Contains(env.ID)))
                 {
+                    string envi = env.Value.Split(';')[0];
+                    string appSuffix = env.Value.Split(';')[1];
+                    string host = env.Value.Split(';')[2];
+                    string ticket = GetTicket(host);
+                    //string ticket = "TOTO";
+                    
                     //Par application
                     foreach (var app in param._AllApplications.Where(app => modelIHM.SelectedApplications.Contains(app.ID)))
                     {
-                        string envi = env.Value.Split(';')[0];
-                        string appSuffix = env.Value.Split(';')[1];
-                        string host = env.Value.Split(';')[2];
                         string appl = app.Name;
                         //string objet = GetObjetViZu(modelIHM.SelectedModele);
 
@@ -124,7 +132,8 @@ namespace QlikPlatformManager.Controllers
                         {
                             ApplicationName = app.Name + " " + appSuffix,
                             Host = host,
-                            Objet = tmp_objOTF
+                            Objet = tmp_objOTF,
+                            Ticket = ticket
                         };
                         _visuOTF.Add(objOTF);
                     }
@@ -142,6 +151,46 @@ namespace QlikPlatformManager.Controllers
             return param;
         }
 
+        /*---------------------------------------------------------*/
+        /* GetTicket : renvoi un ticket pour le serveur*/
+        /*---------------------------------------------------------*/
+         
+        private string GetTicket(string host)
+        {
+            string ticket = "";
+            try
+            {
+                X509Certificate2Collection certificateCollection = Utilitaires.GetCertificate(host);
+                X509Certificate2 certificate = certificateCollection[0];
+                TicketByCertificate ticketexample = new TicketByCertificate(certificate);
+
+                string user = User.Identity.Name.Split('\\')[1];
+                string ticketresponse = ticketexample.TicketRequest("POST", host, user, "CERPBN");
+                ticket = ticketresponse;
+
+                Console.WriteLine(ticketresponse);
+                /*
+                //Connection au serveur
+                //archiverApplicationViewModel.Results.addDetails("Connexion au serveur en attente");
+                ServeurViewModel testerDonnees = new ServeurViewModel();
+                testerDonnees.Serveur = "http://" + host;
+
+                testerDonnees.Connect(User.Identity.Name);
+                testerDonnees.QEngineConnexion.ExtractTicketFromCookies();
+                //archiverApplicationViewModel.Results = archiverConnexion.Results;             */   
+
+                return ticket;
+            }
+            catch (Exception e)
+            {
+                return "erreur : " + e.Message;
+                /*archiverConnexion.ServeurInfos = "";
+                archiverApplicationViewModel.Results.Title = "Archivage KO";
+                archiverApplicationViewModel.Results.addDetails("Erreur rencontrée : " + e.Message);
+                archiverApplicationViewModel.Results.addDetails("Erreur trace : <BR/>" + e.StackTrace.Replace("\r", "<BR/>").Replace("\n", "<BR/>").Replace("<BR/><BR/>", "<BR/>"));
+                return PartialView(archiverApplicationViewModel);*/
+            }
+        }
 
         /*
         //-----------------------------------------------------------

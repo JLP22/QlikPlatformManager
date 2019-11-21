@@ -30,5 +30,7 @@ namespace QlikPlatformManager.DAL
             //Mis en commentaire pour éviter de nommer les tables au singulier
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+
+        public System.Data.Entity.DbSet<QlikPlatformManager.Models.Parametrage> Parametrages { get; set; }
     }
 }

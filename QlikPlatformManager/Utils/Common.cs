@@ -255,6 +255,27 @@ namespace QlikPlatformManager.Utils
             else return host;
 
         }
+
+        //--------------------------------------------------------------------
+        //Récupère Configuration de l'application
+        //--------------------------------------------------------------------
+        public static QPMConfiguration QPMGetConfig()
+        {
+            QPMConfiguration configuration;
+            string cacheObjectName = "QPMConfiguration";
+            //si l'objet existe en cache => on le retourne
+            configuration = (QPMConfiguration)Common.GetObjectInCache("QPMConfiguration");
+            //si l'objet n'existe pas en cache => on l'instancie et le place en cache
+            if (configuration == null)
+            {
+                configuration = new QPMConfiguration();
+                //Sauvegarde en cache des serveurs défini en Bdd
+                Common.SetObjectInCache(cacheObjectName, configuration);
+            }
+            
+            return configuration;
+        }
+
     }
 
 }

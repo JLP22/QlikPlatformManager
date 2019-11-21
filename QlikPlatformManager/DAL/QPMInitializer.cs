@@ -13,12 +13,17 @@ namespace QlikPlatformManager.DAL
     {
         //Seed = Appel auto après création de la BDD pour alimentation données de test ou initialisation
         protected override void Seed(QPMContext context) 
-        {            
+        {
+            //L'objet à besoin de connaitre la config à plusieurs endroits pour ses traitements
+            QPMConfiguration qpmConfig = Common.QPMGetConfig();
+
             // --------- Serveurs ---------
             //Nom est en clair dans la liste
             List<Serveur> serveurs = new List<Serveur>{
-                    new Serveur { Id = "1", Nom = "SRV99BI" , Url =  ConfigurationManager.AppSettings["Dev"], Description = "Développement"},
-                    new Serveur { Id = "2", Nom = "SRV02BI" , Url =  ConfigurationManager.AppSettings["Rec-Prod"], Description = "Recette/Prod"}
+                    //new Serveur { Id = "1", Nom = "SRV99BI" , Url =  ConfigurationManager.AppSettings["Dev"], Description = "Développement"},
+                    //new Serveur { Id = "2", Nom = "SRV02BI" , Url =  ConfigurationManager.AppSettings["Rec-Prod"], Description = "Recette/Prod"}
+                    new Serveur { Id = "1", Nom = "SRV99BI" , Url =  qpmConfig.Global.Environnements["Dev"], Description = "Développement"},
+                    new Serveur { Id = "2", Nom = "SRV02BI" , Url =  qpmConfig.Global.Environnements["Rec-Prod"], Description = "Recette/Prod"}
                     //Ne pas mettre dans l'initialisation de la bdd
                     //,new Serveur { Id = "3", Nom =  Common.GetHostName() , Url = ConfigurationManager.AppSettings["Localhost"], Description = "Desktop"}
             };
@@ -38,7 +43,8 @@ namespace QlikPlatformManager.DAL
 
 
             //Jeu de données pour l'environement de dev
-            if (ConfigurationManager.AppSettings["Environment"]== "Dev")
+            //if (ConfigurationManager.AppSettings["EnvironnementDExecution"]== "Dev")
+            if (qpmConfig.Global.Environnements["EnvironnementDExecution"]== "Dev")
             {
                 // --------- Historique ---------
                 List<Historique> historiques = new List<Historique>{

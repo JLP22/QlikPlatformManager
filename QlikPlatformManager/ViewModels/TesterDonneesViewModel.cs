@@ -32,6 +32,7 @@ namespace QlikPlatformManager.ViewModels
     public class ModeleVizualisation
     {
         public string Host { get; set; } //ex 'bi.cerpba.int'
+        public string Ticket { get; set; } //ex 'bi.cerpba.int'
         public string ApplicationName { get; set; }
         public string Objet { get; set; }
     }

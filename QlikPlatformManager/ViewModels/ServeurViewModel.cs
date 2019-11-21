@@ -17,8 +17,11 @@ namespace QlikPlatformManager.ViewModels
         //Constructeur
         public ServeurViewModel()
         {
+            //L'objet à besoin de connaitre la config à plusieurs endroits pour ses traitements
+            qpmConfig = Common.QPMGetConfig();
         }
-
+        private QPMConfiguration qpmConfig;
+        
         //Propriétés
 
         //-- Serveurs
@@ -84,9 +87,11 @@ namespace QlikPlatformManager.ViewModels
             if (!keepDesktop) _serveurs.RemoveAll(isDesktop);
 
             //Si le serveur desktop doit etre dans la liste, on l'ajoute
-            if ( keepDesktop && _serveurs.Where(s => s.Url == ConfigurationManager.AppSettings["Localhost"]).Count() < 1)
+            //if ( keepDesktop && _serveurs.Where(s => s.Url == ConfigurationManager.AppSettings["Localhost"]).Count() < 1)
+            if ( keepDesktop && _serveurs.Where(s => s.Url == qpmConfig.Global.Environnements["Localhost"]).Count() < 1)
             {
-                Models.Serveur serveurLocalhost = new Models.Serveur { Id = "3", Nom = Common.GetHostName(), Url = ConfigurationManager.AppSettings["Localhost"], Description = "Desktop" };
+                //Models.Serveur serveurLocalhost = new Models.Serveur { Id = "3", Nom = Common.GetHostName(), Url = ConfigurationManager.AppSettings["Localhost"], Description = "Desktop" };
+                Models.Serveur serveurLocalhost = new Models.Serveur { Id = "3", Nom = Common.GetHostName(), Url = qpmConfig.Global.Environnements["Localhost"], Description = "Desktop" };
                 _serveurs.Add(serveurLocalhost);
             }
 
@@ -115,9 +120,10 @@ namespace QlikPlatformManager.ViewModels
                 ApplicationsInfos = QEngineConnexion.GetHtmlApplicationsInfos(fluxName);
             }
         }
-        private static bool isDesktop(Models.Serveur item)
+        private bool isDesktop(Models.Serveur item)
         {
-            return (item.Url == ConfigurationManager.AppSettings["Localhost"]);
+            //return (item.Url == ConfigurationManager.AppSettings["Localhost"]);
+            return (item.Url == qpmConfig.Global.Environnements["Localhost"]);
         }
         
         //-----------------------------------------------------------------------
@@ -136,7 +142,8 @@ namespace QlikPlatformManager.ViewModels
                 bool isLocalConnection = false;
                 Results.addDetails("Connexion au serveur en attente");
                 var hostName = "";
-                if (Serveur == ConfigurationManager.AppSettings["Rec-Prod"] || Serveur == ConfigurationManager.AppSettings["Dev"]) hostName = ConfigurationManager.AppSettings[Serveur];
+                //if (Serveur == ConfigurationManager.AppSettings["Rec-Prod"] || Serveur == ConfigurationManager.AppSettings["Dev"]) hostName = ConfigurationManager.AppSettings[Serveur];
+                if (Serveur == qpmConfig.Global.Environnements["Rec-Prod"] || Serveur == qpmConfig.Global.Environnements["Dev"]) hostName = qpmConfig.Global.Environnements[Serveur];
                 else hostName = Common.GetHostName();
                 QEngineConnexion = new QlikEngineConnexion(Serveur, hostName, "CERPBN", "biadm", "ezabrhBm", QEngineConnexion, isLocalConnection);
                 Results.addDetails("Connexion au serveur réussie");
@@ -165,8 +172,10 @@ namespace QlikPlatformManager.ViewModels
             //Répertoire d'export
             //string exportDir = ConfigurationManager.AppSettings["ExportDirectory"];
             //Fichier à créer directement sur le poste local (rassemble l'étape de création puis de copie)
-            string exportDir = "\\\\" + Common.GetHostName() + "\\" + ConfigurationManager.AppSettings["ImportDirectory"] + "\\";
-            string suffixeExportDir = ConfigurationManager.AppSettings["ExportSuffix"];
+            //string exportDir = "\\\\" + Common.GetHostName() + "\\" + ConfigurationManager.AppSettings["ImportDirectory"] + "\\";
+            string exportDir = "\\\\" + Common.GetHostName() + "\\" + qpmConfig.Global.Repertoires["ImportDirectory"] + "\\";
+            //string suffixeExportDir = ConfigurationManager.AppSettings["ExportSuffix"];
+            string suffixeExportDir = qpmConfig.Global.Repertoires["ExportSuffix"];
             string fileDir = exportDir + DateTime.Now.ToString("yyyyMMdd") + suffixeExportDir.Replace(" ", "%20") + @"\";
 
             //Si données valides, archiver 
@@ -212,8 +221,10 @@ namespace QlikPlatformManager.ViewModels
         {            
             Results.addDetails("Début de l'archivage");
             //string archiveRepertoire = ConfigurationManager.AppSettings["ExportDirectory"];
-            string archiveRepertoire = "\\\\" + Common.GetHostName() + "\\" + ConfigurationManager.AppSettings["ImportDirectory"] + "\\"; 
-            string suffixeArchiveDir = ConfigurationManager.AppSettings["ArchivSuffix"];
+            //string archiveRepertoire = "\\\\" + Common.GetHostName() + "\\" + ConfigurationManager.AppSettings["ImportDirectory"] + "\\"; 
+            string archiveRepertoire = "\\\\" + Common.GetHostName() + "\\" + qpmConfig.Global.Repertoires["ImportDirectory"] + "\\"; 
+            //string suffixeArchiveDir = ConfigurationManager.AppSettings["ArchivSuffix"];
+            string suffixeArchiveDir = qpmConfig.Global.Repertoires["ArchivSuffix"];
             string sourceApplicationId = Application;
             string sourceApplicationName = Common.GetText(_Application, sourceApplicationId);
             string createdFile = QEngineConnexion.ArchivageApplication(sourceApplicationId, archiveRepertoire, withData, 7, suffixeArchiveDir);

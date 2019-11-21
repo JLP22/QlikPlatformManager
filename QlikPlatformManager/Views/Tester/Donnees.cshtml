@@ -7,7 +7,7 @@
     <script type="text/javascript">
         $.validator.unobtrusive.parse(document);
     </script>
-    <script src="@Url.Content("~/Scripts/mine/utils.js")" type="text/javascript"></script>
+    @*<script src="@Url.Content("~/Scripts/mine/utils.js")" type="text/javascript"></script>*@
 
     @*ZONE ARIANE*@
     <div class="row">
@@ -146,11 +146,12 @@
                         @*Objet constuit à la volée*@
                         string idAppname = "qa-" + vizu.ApplicationName.Replace(" ", "");
                         string idHostAppname = "qh-" + vizu.Host + idAppname;
+                        string idTicket = "qt-" + vizu.Ticket;
                         string idHostAppnameState = idAppname + "_State";
                         @*string idBtn = "btn-" + vizu.Host + vizu.ApplicationID;
-                    <div class="row">
-                        <div class="col-md-12"><button id=@idBtn>Afficher</button></div>
-                    </div>*@
+                            <div class="row">
+                                <div class="col-md-12"><button id=@idBtn>Afficher</button></div>
+                            </div>*@
                         <div class="row">
                             <div id=@idHostAppname class="col-md-11">
                                 <p>@vizu.ApplicationName</p>
@@ -163,7 +164,7 @@
                         </div>
                         <div class="row">
                             <div id=@idHostAppname class="col-md-12">
-                                <div class="qlik-embed" id=@idAppname data-qlik-appname="@vizu.ApplicationName" data-qlik-host=@vizu.Host></div>
+                                <div class="qlik-embed" id=@idAppname data-qlik-appname="@vizu.ApplicationName" data-qlik-host=@vizu.Host data-qlik-ticket=@vizu.Ticket></div>
                             </div>
                         </div>
                         <div class="row">
@@ -171,15 +172,17 @@
                         </div>
 
                         @*<script>
-                        FillQlikVizu('@vizu.Host', '@vizu.ApplicationName', '@idApp', '@Html.Raw(vizu.Objet)');
-                        //document.getElementById('dsp_btn').onclick = function () {
-                        //    FillQlikVizu('@vizu.Host', '@vizu.ApplicationName', '@id', '@Html.Raw(vizu.Objet)');
-                        //}
-                    </script>*@
+                                FillQlikVizu('@vizu.Host', '@vizu.ApplicationName', '@idApp', '@Html.Raw(vizu.Objet)');
+                                //document.getElementById('dsp_btn').onclick = function () {
+                                //    FillQlikVizu('@vizu.Host', '@vizu.ApplicationName', '@id', '@Html.Raw(vizu.Objet)');
+                                //}
+                            </script>*@
                     }
                     <script>
 
-                        FillAllQlikVizu('@Html.Raw(@Model._VizuOTF.Last().Objet)');
+                        //InitConnection();
+
+                        CompleteAllQlikVizu('@Html.Raw(@Model._VizuOTF.Last().Objet)');
                         @*document.getElementById('dsp_btn').onclick = function () {
                         FillQlikVizu('@vizu.Host', '@vizu.ApplicationName', '@id', '@Html.Raw(vizu.Objet)');
                         }*@

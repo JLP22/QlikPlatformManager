@@ -81,6 +81,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Bin\Qlik.Engine.dll</HintPath>
     </Reference>
+    <Reference Include="QlikAuthNet, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QlikAuthNet.1.1.2\lib\net45\QlikAuthNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -99,6 +102,9 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -110,6 +116,12 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
@@ -158,14 +170,17 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AfficherController.cs" />
     <Compile Include="Controllers\AnalyserController.cs" />
     <Compile Include="Controllers\ArchiverController.cs" />
     <Compile Include="Controllers\DeployerController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ParametragesController.cs" />
     <Compile Include="Controllers\RouteTestController.cs" />
     <Compile Include="Controllers\TesterController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="DAL\Dal.cs" />
     <Compile Include="DAL\QPMContext.cs" />
     <Compile Include="DAL\QPMInitializer.cs" />
@@ -179,12 +194,17 @@
     <Compile Include="Models\Application.cs" />
     <Compile Include="Models\Historique.cs" />
     <Compile Include="DAL\IDal.cs" />
+    <Compile Include="Models\Parametrage.cs" />
     <Compile Include="Models\Serveur.cs" />
+    <Compile Include="Models\TicketAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Common.cs" />
+    <Compile Include="Utils\QPMConfiguration.cs" />
+    <Compile Include="Utils\Initialisation.cs" />
     <Compile Include="ViewModels\DeployerApplicationConnexionViewModel.cs" />
     <Compile Include="ViewModels\DeployerApplicationViewModel.cs" />
     <Compile Include="ViewModels\ArchiverStructureViewModel.cs" />
+    <Compile Include="ViewModels\ParametrageViewModel.cs" />
     <Compile Include="ViewModels\ServeurViewModel.cs" />
     <Compile Include="ViewModels\ArchiverStructureConnexionViewModel.cs" />
     <Compile Include="ViewModels\ResultsViewModel.cs" />
@@ -201,6 +221,91 @@
     <Content Include="Content\Pictures\QlikAdministration.jpeg" />
     <Content Include="Content\Pictures\QlikAdministrationShortCut.ico" />
     <Content Include="Content\Pictures\Qlik_icon.ico" />
+    <Content Include="Content\Qlik\assets\client\client.6.105.10.css" />
+    <Content Include="Content\Qlik\assets\client\client.6.105.10.js" />
+    <Content Include="Content\Qlik\assets\client\client.css" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\de-762d39ee2de74c5b83ec.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\en-c310fe08ceba382f6862.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\en-GB-17b9a01a0f91b2da65cd.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\es-260b6d743f1c513ed7f2.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\fr-bc71575d5681fefcf444.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\it-589f096b2ba59cd17c1d.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\ja-55c984502ee1253d326c.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\ko-b2ba5da12d2c1921ce70.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\nl-70eeddecbcc219601a64.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\pl-9c23c8ca00e9cdcf3f03.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\pt-6d9e90bc2e529f3b6029.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\ru-b8d4b5664f3c6ab08c2b.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\sv-2258897c8d09a1ab1c84.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\tr-027b994bbf1ebcb67774.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\zh-b559e1fc90574b432816.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\zh-Hans-f8a227177975893ec8cb.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\zh-Hans-MO-0ed9af1bc8161fd67ebb.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\zh-Hans-SG-f0a2e261a223985165b4.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\zh-Hant-72bffdef51ceaf03e47c.js" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\zh-Hant-HK-257d3ad117fd587cade6.js" />
+    <Content Include="Content\Qlik\assets\external\leonardo-ui\leonardo-ui.css" />
+    <Content Include="Content\Qlik\assets\external\requirejs\require.6.105.10.js" />
+    <Content Include="Content\Qlik\assets\external\requirejs\require.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-de-DE-43cb77338b3afc918a19.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-de-DE-73b27e1b30a142762776.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-en-US-9b59c4e75abaf24b341a.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-en-US-ad11c60b94f4e0cef66b.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-es-ES-0fe4ffd00fdd0dc93b84.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-es-ES-784425ec072814ebffe4.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-fr-FR-985e7f64738188c3d641.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-fr-FR-c5e84cdcd448b1794c77.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-it-IT-434c2ee349cd7d3be7b9.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-it-IT-fd864a582a72ac912d59.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-ja-JP-28fd9722c68b712a8afd.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-ja-JP-e11f65de9758dfbaa440.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-nl-NL-50ced9d3794a86a1f9e8.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-nl-NL-a6c20b1a53514d57104f.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-pt-BR-71ebfc5026fa1a1d2183.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-pt-BR-94fdf5327c23d91bc5f2.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-ru-RU-5eec0e3a7782b362901a.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-ru-RU-a850ba6be050a3c75085.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-sv-SE-069a0a0262914ce3085f.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-sv-SE-338da9c314128cd8d362.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-zh-CN-80302fb877d7510f75c5.js" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-zh-CN-e02fa8bd0b6dd2f6fd0d.js" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_bar.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_box_plot.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_combo.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_default.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_distribution.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_filter_pane.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_gauge.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_histogram.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_kpi.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_line.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_map.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_pie.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_pivot_table.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_scatter.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_table.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_text_image.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_tree_map.svg" />
+    <Content Include="Content\Qlik\assets\images\charts\faded_waterfall.svg" />
+    <Content Include="Content\Qlik\assets\images\embed_%402.png" />
+    <Content Include="Content\Qlik\assets\images\fallback.png" />
+    <Content Include="Content\Qlik\assets\images\favicon.ico" />
+    <Content Include="Content\Qlik\assets\images\PBQlik.png" />
+    <Content Include="Content\Qlik\assets\images\ShareIcons_FB.png" />
+    <Content Include="Content\Qlik\assets\images\ShareIcons_LI.png" />
+    <Content Include="Content\Qlik\assets\images\ShareIcons_TW.png" />
+    <Content Include="Content\Qlik\assets\images\share_normal_%402.png" />
+    <Content Include="Content\Qlik\assets\images\social_media_static.png" />
+    <Content Include="Content\Qlik\assets\images\url_%402.png" />
+    <Content Include="Content\Qlik\assets\object-renderer\object-renderer.6.105.10.css" />
+    <Content Include="Content\Qlik\assets\object-renderer\object-renderer.6.105.10.js" />
+    <Content Include="Content\Qlik\assets\object-renderer\object-renderer.css" />
+    <Content Include="Content\Qlik\assets\scripteditor\services\test_script.txt" />
+    <Content Include="Content\Qlik\autogenerated\licenses.js" />
+    <Content Include="Content\Qlik\autogenerated\product-info.js" />
+    <Content Include="Content\Qlik\autogenerated\qlik-styles.6.105.10.css" />
+    <Content Include="Content\Qlik\autogenerated\qlik-styles.6.105.10.js" />
+    <Content Include="Content\Qlik\autogenerated\qlik-styles.css" />
     <Content Include="Content\qmc.css" />
     <Content Include="Content\mine.css" />
     <Content Include="favicon.ico" />
@@ -228,6 +333,91 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Content\Qlik\_\node_modules\%40qlik\lui-icons\dist\lui-icons.1e54e5cab14a3bd521bc9f9bb1ed9a50.woff" />
+    <Content Include="Content\Qlik\_\node_modules\%40qlik\lui-icons\dist\lui-icons.f8044af53264c3e53ad3f91a67ecaf31.ttf" />
+    <Content Include="Content\Qlik\_\node_modules\%40qlik\lui-icons\dist\lui-icons.f8044af53264c3e53ad3f91a67ecaf31.ttf.gz" />
+    <Content Include="Content\Qlik\_\node_modules\%40qlik\managedata-client\release\components\bubbles\bubbles.20e9d6985581847166c3b287830f7dc9.ttf" />
+    <Content Include="Content\Qlik\_\node_modules\%40qlik\managedata-client\release\components\bubbles\bubbles.81ba700eacd65e7481a90ba4d13dcdaf.eot" />
+    <Content Include="Content\Qlik\assets\client\client.6.105.10.css.gz" />
+    <Content Include="Content\Qlik\assets\client\client.css.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\de-762d39ee2de74c5b83ec.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\en-c310fe08ceba382f6862.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\en-GB-17b9a01a0f91b2da65cd.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\es-260b6d743f1c513ed7f2.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\fr-bc71575d5681fefcf444.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\it-589f096b2ba59cd17c1d.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\ja-55c984502ee1253d326c.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\ko-b2ba5da12d2c1921ce70.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\nl-70eeddecbcc219601a64.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\pl-9c23c8ca00e9cdcf3f03.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\pt-6d9e90bc2e529f3b6029.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\ru-b8d4b5664f3c6ab08c2b.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\sv-2258897c8d09a1ab1c84.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\tr-027b994bbf1ebcb67774.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\zh-b559e1fc90574b432816.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\zh-Hans-f8a227177975893ec8cb.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\zh-Hans-MO-0ed9af1bc8161fd67ebb.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\zh-Hans-SG-f0a2e261a223985165b4.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\zh-Hant-72bffdef51ceaf03e47c.js.gz" />
+    <Content Include="Content\Qlik\assets\external\dragomanjs\langs\zh-Hant-HK-257d3ad117fd587cade6.js.gz" />
+    <Content Include="Content\Qlik\assets\external\leonardo-ui\leonardo-ui.css.gz" />
+    <Content Include="Content\Qlik\assets\external\requirejs\require.6.105.10.js.gz" />
+    <Content Include="Content\Qlik\assets\external\requirejs\require.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sense-themes-default\breeze\theme.json" />
+    <Content Include="Content\Qlik\assets\external\sense-themes-default\card\theme.json" />
+    <Content Include="Content\Qlik\assets\external\sense-themes-default\default-themes.json" />
+    <Content Include="Content\Qlik\assets\external\sense-themes-default\sense\theme.json" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-de-DE-43cb77338b3afc918a19.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-de-DE-73b27e1b30a142762776.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-en-US-9b59c4e75abaf24b341a.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-en-US-ad11c60b94f4e0cef66b.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-es-ES-0fe4ffd00fdd0dc93b84.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-es-ES-784425ec072814ebffe4.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-fr-FR-985e7f64738188c3d641.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-fr-FR-c5e84cdcd448b1794c77.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-it-IT-434c2ee349cd7d3be7b9.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-it-IT-fd864a582a72ac912d59.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-ja-JP-28fd9722c68b712a8afd.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-ja-JP-e11f65de9758dfbaa440.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-nl-NL-50ced9d3794a86a1f9e8.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-nl-NL-a6c20b1a53514d57104f.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-pt-BR-71ebfc5026fa1a1d2183.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-pt-BR-94fdf5327c23d91bc5f2.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-ru-RU-5eec0e3a7782b362901a.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-ru-RU-a850ba6be050a3c75085.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-sv-SE-069a0a0262914ce3085f.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-sv-SE-338da9c314128cd8d362.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-zh-CN-80302fb877d7510f75c5.js.gz" />
+    <Content Include="Content\Qlik\assets\external\sensei-codearea\help-zh-CN-e02fa8bd0b6dd2f6fd0d.js.gz" />
+    <Content Include="Content\Qlik\assets\hldm\add-data\add-data-wizard.71336cc10976bcee4f507420f57b0e8e.ttf" />
+    <Content Include="Content\Qlik\assets\hldm\add-data\add-data-wizard.bddcc9c70126319d50ff76391e699827.eot" />
+    <Content Include="Content\Qlik\assets\hldm\add-data\add-data-wizard.eot" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_bar.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_box_plot.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_combo.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_default.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_distribution.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_filter_pane.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_gauge.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_histogram.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_kpi.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_line.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_map.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_pie.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_pivot_table.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_scatter.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_table.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_text_image.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_tree_map.json" />
+    <Content Include="Content\Qlik\assets\images\charts\animations\sweep_waterfall.json" />
+    <Content Include="Content\Qlik\assets\mapconf.json" />
+    <Content Include="Content\Qlik\assets\object-renderer\object-renderer.6.105.10.css.gz" />
+    <Content Include="Content\Qlik\assets\object-renderer\object-renderer.css.gz" />
+    <Content Include="Content\Qlik\autogenerated\licenses.json" />
+    <Content Include="Content\Qlik\autogenerated\product-info.json" />
+    <Content Include="Content\Qlik\autogenerated\qlik-styles.6.105.10.css.gz" />
+    <Content Include="Content\Qlik\autogenerated\qlik-styles.css.gz" />
+    <Content Include="Content\Qlik\autogenerated\sense-eula.pdf" />
     <None Include="Properties\PublishProfiles\Production - IIS Srv99bi Old.pubxml" />
     <None Include="Properties\PublishProfiles\Production - IIS Srv99bi.pubxml" />
     <None Include="Properties\PublishProfiles\Recette - IIS Local.pubxml" />
@@ -243,14 +433,15 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\mine\MyRequire.js" />
     <Content Include="Scripts\mine\qlikObjectOnTheFly.js" />
+    <Content Include="Scripts\mine\Test.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\mine\utils.js" />
+    <Content Include="Scripts\Qlik\require.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -299,6 +490,11 @@
     <Content Include="Views\Deployer\Application.cshtml" />
     <Content Include="Views\Deployer\ApplicationConnexion.cshtml" />
     <Content Include="Views\Tester\Donnees.cshtml" />
+    <Content Include="Views\Parametrages\Create.cshtml" />
+    <Content Include="Views\Parametrages\Delete.cshtml" />
+    <Content Include="Views\Parametrages\Details.cshtml" />
+    <Content Include="Views\Parametrages\Edit.cshtml" />
+    <Content Include="Views\Parametrages\Liste.cshtml" />
     <None Include="Web.IIS Local %28VS%29.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -306,6 +502,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Qlik\fonts\" />
+    <Folder Include="Content\Qlik\img\" />
     <Folder Include="Views\Error\" />
   </ItemGroup>
   <ItemGroup>

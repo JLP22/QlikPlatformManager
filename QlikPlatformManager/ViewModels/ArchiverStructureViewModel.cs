@@ -60,8 +60,13 @@ namespace QlikPlatformManager.ViewModels
             //Répertoire d'export
             //string exportDir = ConfigurationManager.AppSettings["ExportDirectory"];
             //Fichier à créer directement sur le poste local (rassemble l'étape de création puis de copie)
-            string exportDir = "\\\\" + Common.GetHostName() + "\\" + ConfigurationManager.AppSettings["ImportDirectory"] + "\\";
-            string suffixeExportDir = ConfigurationManager.AppSettings["ExportSuffix"];
+            QPMConfiguration qpmConfig = Common.QPMGetConfig();
+            string importDirectory = qpmConfig.Global.Repertoires["ImportDirectory"];
+            //string importDirectory = ConfigurationManager.AppSettings["ImportDirectory"];
+            
+            string exportDir = "\\\\" + Common.GetHostName() + "\\" + importDirectory + "\\";
+            //string suffixeExportDir = ConfigurationManager.AppSettings["ExportSuffix"];
+            string suffixeExportDir = qpmConfig.Global.Repertoires["ExportSuffix"];
             string fileDir = exportDir + DateTime.Now.ToString("yyyyMMdd") + suffixeExportDir.Replace(" ", "%20") + @"\";
 
             var serveurRefName = ServeurRef.Connexion._Application.Where(a => a.Value == ServeurRef.Connexion.Application).First().Text;
