@@ -101,7 +101,7 @@ namespace QlikPlatformManager.ViewModels
 
                 //Recherche le répertoire d'import sur le serveur cible
                 var destinationServer = ServeurCible.Connexion._Serveur.Where(p => p.Value == ServeurCible.Connexion.Serveur).FirstOrDefault().Text;
-                ServeurCible.Connexion.QEngineConnexion.InitImportDirectory(destinationServer);
+                ServeurCible.Connexion.QEngineConnexion.InitImportDirectory(destinationServer, qpmConfig.Global.Repertoires["ImportDirectory"]);
 
                 //Si repertoire d'import serveur récupéré
                 if (!String.IsNullOrEmpty(ServeurCible.Connexion.QEngineConnexion.ImportDirectory))

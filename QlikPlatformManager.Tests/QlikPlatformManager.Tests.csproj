@@ -35,6 +35,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Batch|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug Batch\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -104,13 +113,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Qlik\QlikUtils\QlikUtils.csproj">
-      <Project>{c2104e80-5e5b-4dff-9d50-4f4afe6ce068}</Project>
-      <Name>QlikUtils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\QlikPlatformManager\QlikPlatformManager.csproj">
       <Project>{2f6dfadb-04b2-4a19-9978-96ff03e6922b}</Project>
       <Name>QlikPlatformManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QlikUtils\QlikUtils.csproj">
+      <Project>{ec1c3cfe-f34b-4923-a115-9c3ed5a153d5}</Project>
+      <Name>QlikUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

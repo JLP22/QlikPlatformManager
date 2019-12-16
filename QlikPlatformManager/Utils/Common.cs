@@ -218,8 +218,8 @@ namespace QlikPlatformManager.Utils
         //--------------------------------------------------------------------
         public static object GetObjectInCache(string regionName)
         {
-            //Objet existe dans le cache
-            if (MemoryCache.Default.Contains(regionName)) return MemoryCache.Default.Get(regionName);
+            //Si pas en mode batch et objet existe dans le cache, retourne l'objet
+            if (!AppContext.BaseDirectory.Contains("Batch") && MemoryCache.Default.Contains(regionName)) return MemoryCache.Default.Get(regionName);
             else return null;
         }
         //--------------------------------------------------------------------
@@ -227,8 +227,8 @@ namespace QlikPlatformManager.Utils
         //--------------------------------------------------------------------
         public static object SetObjectInCache(string regionName, Object objet)
         {
-            //Objet existe déjà dans le cache
-            if (GetObjectInCache(regionName) != null) return false;
+            //Si Objet existe déjà dans le cache ou que l'on est en mode batch, on alimente pas le cache
+            if ( AppContext.BaseDirectory.Contains("Batch") || GetObjectInCache(regionName) != null) return false;
             else
             {
                 //Ajout objet dans le cache

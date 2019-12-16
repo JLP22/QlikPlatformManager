@@ -23,6 +23,7 @@ namespace QlikPlatformManager.DAL
         //Tables
         public DbSet<Historique> Historiques { get; set; }
         public DbSet<Serveur> Serveurs { get; set; }
+        public DbSet<Parametrage> Parametrages { get; set; }
         
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -31,6 +32,5 @@ namespace QlikPlatformManager.DAL
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
-        public System.Data.Entity.DbSet<QlikPlatformManager.Models.Parametrage> Parametrages { get; set; }
     }
 }

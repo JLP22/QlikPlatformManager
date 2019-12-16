@@ -3,7 +3,7 @@ using QlikPlatformManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+
 
 namespace QlikPlatformManager.Utils
 {
@@ -45,33 +45,45 @@ namespace QlikPlatformManager.Utils
 
         public QPMConfiguration()
         {
-            Global = new Global();
-            TesterDonnees = new TesterDonnees();
-
-            List<Parametrage> _bddParam = db.Parametrages.ToList();
-            foreach (var p in _bddParam)
+            try
             {
-                //Alimentation paramètres type global
-                string prefixGlobalParam = "Global";
-                bool isGlobalParam = p.Type.Contains(prefixGlobalParam);
-                string prefixTesterDonnees = "TesterDonnees";
-                bool isPrefixTesterDonnees = p.Type.Contains(prefixTesterDonnees);
+                Console.WriteLine("QPMConfiguration : Début");
+                Console.WriteLine("QPMConfiguration : Recherche config via QPMConfiguration.\nChaine de connection = " + db.Database.Connection.ConnectionString);
+                Global = new Global();
+                TesterDonnees = new TesterDonnees();
 
-                if (isGlobalParam)
+                List<Parametrage> _bddParam = db.Parametrages.ToList();
+                foreach (var p in _bddParam)
                 {
-                    if (p.Type.Contains(prefixGlobalParam + "/Environnements")) Global.Environnements.Add(p.Cle, p.Valeur);
-                    if (p.Type.Contains(prefixGlobalParam + "/Livraison")) Global.Livraison.Add(p.Cle, p.Valeur);
-                    if (p.Type.Contains(prefixGlobalParam + "/UtilisateurModele")) Global.UtilisateurModele.Add(p.Cle, p.Valeur);
-                    if (p.Type.Contains(prefixGlobalParam + "/Fichiers")) Global.Fichiers.Add(p.Cle, p.Valeur);
-                    if (p.Type.Contains(prefixGlobalParam + "/Repertoires")) Global.Repertoires.Add(p.Cle, p.Valeur);
+                    //Alimentation paramètres type global
+                    string prefixGlobalParam = "Global";
+                    bool isGlobalParam = p.Type.Contains(prefixGlobalParam);
+                    string prefixTesterDonnees = "TesterDonnees";
+                    bool isPrefixTesterDonnees = p.Type.Contains(prefixTesterDonnees);
+
+                    if (isGlobalParam)
+                    {
+                        if (p.Type.Contains(prefixGlobalParam + "/Environnements")) Global.Environnements.Add(p.Cle, p.Valeur);
+                        if (p.Type.Contains(prefixGlobalParam + "/Livraison")) Global.Livraison.Add(p.Cle, p.Valeur);
+                        if (p.Type.Contains(prefixGlobalParam + "/UtilisateurModele")) Global.UtilisateurModele.Add(p.Cle, p.Valeur);
+                        if (p.Type.Contains(prefixGlobalParam + "/Fichiers")) Global.Fichiers.Add(p.Cle, p.Valeur);
+                        if (p.Type.Contains(prefixGlobalParam + "/Repertoires")) Global.Repertoires.Add(p.Cle, p.Valeur);
+                    }
+                    else if (isPrefixTesterDonnees)
+                    {
+                        if (p.Type.Contains(prefixTesterDonnees + "/EnvironnementsList")) TesterDonnees.EnvironnementsList.Add(p.Cle, p.Valeur);
+                        if (p.Type.Contains(prefixTesterDonnees + "/ModelesList")) TesterDonnees.ModelesList.Add(p.Cle, p.Valeur);
+                        if (p.Type.Contains(prefixTesterDonnees + "/ModelesApplicationsList")) TesterDonnees.ModelesApplicationsList.Add(p.Cle, p.Valeur);
+                    }
                 }
-                else if (isPrefixTesterDonnees)
-                {
-                    if (p.Type.Contains(prefixGlobalParam + "/EnvironnementsList")) TesterDonnees.EnvironnementsList.Add(p.Cle, p.Valeur);
-                    if (p.Type.Contains(prefixGlobalParam + "/ModelesList")) TesterDonnees.ModelesList.Add(p.Cle, p.Valeur);
-                    if (p.Type.Contains(prefixGlobalParam + "/ModelesApplicationsList")) TesterDonnees.ModelesApplicationsList.Add(p.Cle, p.Valeur);
-                }
-            }      
+                Console.WriteLine("QPMConfiguration : Fin");
+
+            } catch(Exception e)
+            {
+                Console.WriteLine("/!\\ QPMConfiguration : Erreur \n " + e.Message );
+                Console.WriteLine("/!\\ QPMConfiguration : Fin");
+                throw;
+            }
         }
     }
 

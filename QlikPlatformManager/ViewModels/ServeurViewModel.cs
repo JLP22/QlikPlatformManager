@@ -103,7 +103,7 @@ namespace QlikPlatformManager.ViewModels
             {
                 //Recherche liste des Stream par application
                 //Collection renvoyées (clé soit Id, soit Name et value = objet issu du JSON)
-                QEngineConnexion.InitListeApplication();
+                QEngineConnexion.InitListeApplication(qpmConfig.Global.Repertoires["ImportDirectory"]);
                 ServeurInfos = QEngineConnexion.GetHtmlServeurInfos();
             }
 
@@ -139,13 +139,14 @@ namespace QlikPlatformManager.ViewModels
             if (QEngineConnexion == null || QEngineConnexion.Host != Serveur)
             {
                 //Création de la connexion
-                bool isLocalConnection = false;
+                //bool isLocalConnection = false;
                 Results.addDetails("Connexion au serveur en attente");
                 var hostName = "";
                 //if (Serveur == ConfigurationManager.AppSettings["Rec-Prod"] || Serveur == ConfigurationManager.AppSettings["Dev"]) hostName = ConfigurationManager.AppSettings[Serveur];
                 if (Serveur == qpmConfig.Global.Environnements["Rec-Prod"] || Serveur == qpmConfig.Global.Environnements["Dev"]) hostName = qpmConfig.Global.Environnements[Serveur];
                 else hostName = Common.GetHostName();
-                QEngineConnexion = new QlikEngineConnexion(Serveur, hostName, "CERPBN", "biadm", "ezabrhBm", QEngineConnexion, isLocalConnection);
+                //QEngineConnexion = new QlikEngineConnexion(Serveur, hostName, "CERPBN", "biadm", "ezabrhBm", QEngineConnexion, isLocalConnection);
+                QEngineConnexion = new QlikEngineConnexion(Serveur, hostName, "CERPBN", "biadm", "ezabrhBm", QEngineConnexion);
                 Results.addDetails("Connexion au serveur réussie");
                 //Mise en cache de la connexion
                 Common.SetObjectInCache(UserConnexion, QEngineConnexion);
@@ -175,7 +176,7 @@ namespace QlikPlatformManager.ViewModels
             //string exportDir = "\\\\" + Common.GetHostName() + "\\" + ConfigurationManager.AppSettings["ImportDirectory"] + "\\";
             string exportDir = "\\\\" + Common.GetHostName() + "\\" + qpmConfig.Global.Repertoires["ImportDirectory"] + "\\";
             //string suffixeExportDir = ConfigurationManager.AppSettings["ExportSuffix"];
-            string suffixeExportDir = qpmConfig.Global.Repertoires["ExportSuffix"];
+            string suffixeExportDir = qpmConfig.Global.Fichiers["ExportSuffix"];
             string fileDir = exportDir + DateTime.Now.ToString("yyyyMMdd") + suffixeExportDir.Replace(" ", "%20") + @"\";
 
             //Si données valides, archiver 
@@ -224,7 +225,7 @@ namespace QlikPlatformManager.ViewModels
             //string archiveRepertoire = "\\\\" + Common.GetHostName() + "\\" + ConfigurationManager.AppSettings["ImportDirectory"] + "\\"; 
             string archiveRepertoire = "\\\\" + Common.GetHostName() + "\\" + qpmConfig.Global.Repertoires["ImportDirectory"] + "\\"; 
             //string suffixeArchiveDir = ConfigurationManager.AppSettings["ArchivSuffix"];
-            string suffixeArchiveDir = qpmConfig.Global.Repertoires["ArchivSuffix"];
+            string suffixeArchiveDir = qpmConfig.Global.Fichiers["ArchivSuffix"];
             string sourceApplicationId = Application;
             string sourceApplicationName = Common.GetText(_Application, sourceApplicationId);
             string createdFile = QEngineConnexion.ArchivageApplication(sourceApplicationId, archiveRepertoire, withData, 7, suffixeArchiveDir);
@@ -265,7 +266,7 @@ namespace QlikPlatformManager.ViewModels
         {
             Results.addDetails("Début de l'export du modèle de l'application au format Json");
 
-            string fullFileName = QEngineConnexion.GetJsonApplicationsInfos(Application, fileDir);
+            string fullFileName = QEngineConnexion.JsonCreateExport(Application, fileDir);
             if (fullFileName.Equals("")) Results.addDetails("Export du modèle en erreur");
             else
             {

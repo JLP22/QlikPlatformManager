@@ -1,4 +1,6 @@
-﻿using Qlik.Engine;
+﻿using Newtonsoft.Json;
+using Qlik.Engine;
+using QlikPlatformManager.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -41,6 +43,16 @@ namespace QlikPlatformManager.ViewModels
     {
 
         //Propriétés
+        
+        //-- Environnements
+        //Liste des environnements
+        public List<ModeleEnvironnement> _AllEnvironnements { get; set; }
+        public List<ModeleEnvironnement> _TesterEnvironnements { get; set; }
+        //Environnements sélectionnée
+        [Display(Name = "Environnements")]
+        [Required(ErrorMessage = "Au moins un environnement doit être sélectionnée")]
+        public string[] SelectedEnvironnements { get; set; }
+
         //-- Modeles
         //Liste des modeles
         public List<SelectListItem> _Modeles { get; set; }
@@ -53,19 +65,11 @@ namespace QlikPlatformManager.ViewModels
         //Liste des applications
         public List<ModeleApplication> _AllApplications { get; set; }
         public List<ModeleApplication> _TesterApplications { get; set; }
-        //Application sélectionnée
+        //Applications sélectionnées
         [Display(Name = "Applications")]
         [Required(ErrorMessage = "Au moins une application doit être sélectionnée")]
         public string[] SelectedApplications { get; set; }
 
-        //-- Environnements
-        //Liste des applications
-        public List<ModeleEnvironnement> _AllEnvironnements { get; set; }
-        public List<ModeleEnvironnement> _TesterEnvironnements { get; set; }
-        //Application sélectionnée
-        [Display(Name = "Environnements")]
-        [Required(ErrorMessage = "Au moins un environnement doit être sélectionnée")]
-        public string[] SelectedEnvironnements { get; set; }
 
         //-- Objet à visualizer
         //Paramétrage des visualisations
@@ -74,12 +78,102 @@ namespace QlikPlatformManager.ViewModels
         //-- Résultats
         public ResultsViewModel Results = new ResultsViewModel();
 
+        // Accès aux éléments de configuration de l'applicaiton 
+        private QPMConfiguration qpmConfig;
+
         //Constructeur
         public TesterDonneesViewModel()
         {
+            //L'objet à besoin de connaitre la config à plusieurs endroits pour ses traitements
+            qpmConfig = Common.QPMGetConfig();
+            Init();
+        }
+        //---------------------------------------------------------------------------
+        // Initialisation des liste Environnement et modèle
+        //---------------------------------------------------------------------------
+        private void Init()
+        {
+
+            //------------- Environnements ---------------------------------
+            _AllEnvironnements = new List<ModeleEnvironnement>();
+            foreach (var env in qpmConfig.TesterDonnees.EnvironnementsList)
+            {
+                string id = (string)env.Key;
+                string name = (string)env.Value.Split(';')[0];
+                _AllEnvironnements.Add(new ModeleEnvironnement { ID = id, Name = name });
+            }
+
+            //------------- Modele ---------------------------------
+            _Modeles = new List<SelectListItem>();
+            List<Modele> _tmpModeles = new List<Modele>();
+            foreach (var modele in qpmConfig.TesterDonnees.ModelesList)
+            {
+                string id = (string)modele.Key;
+                string name = (string)modele.Value;
+                //string name = (string)modele.Value.ToString().Split(';')[1];
+                _tmpModeles.Add(new Modele { ID = id, Name = name });
+            }
+            _Modeles = Common.ToSelectListItem(_tmpModeles.ToList());
+        }
+
+        //---------------------------------------------------------------------------
+        // Initialisation de la liste Application en fonction du modèle sélectionné
+        //---------------------------------------------------------------------------
+        public void PopulateApplication(string selectedModel)
+        {
+            _AllApplications = new List<ModeleApplication>();
+            foreach (var app in qpmConfig.TesterDonnees.ModelesApplicationsList)
+            {
+                string id = (string)app.Key;
+                string name = (string)app.Value;
+                if (id.Contains(selectedModel)) _AllApplications.Add(new ModeleApplication { ID = id, Name = name });
+            }          
+        }
+
+        //---------------------------------------------------------------------------
+        // Initialisation de la liste Application en fonction du modèle sélectionné
+        //---------------------------------------------------------------------------
+        public void PopulateObjectOTF(string[] selectedEnvironnements, string selectedModel, string[] selectedApplications)
+        {
+
+            List<ModeleVizualisation>  _tmpVizuOTF = new List<ModeleVizualisation>();
+            //Par environnement
+            foreach (var env in qpmConfig.TesterDonnees.EnvironnementsList.Where(env => selectedEnvironnements.Contains((string)env.Key)))
+            {
+                string envi = env.Value.Split(';')[0];
+                string appSuffix = env.Value.Split(';')[1];
+                string host = env.Value.Split(';')[2];
+                //JLEP Supprimer ticket ?
+                //string ticket = GetTicket(host);
+
+
+                //Par application
+                foreach (var app in _AllApplications.Where(app => selectedApplications.Contains(app.ID)))
+                {
+                    string appl = app.Name;
+                    
+                    string tmp_objOTF = "";
+                    string tmpSelectedModel = _Modeles.Where(model => (model.Value == selectedModel)).First().Text;
+
+                    if (tmpSelectedModel == "Vente") tmp_objOTF = JsonConvert.SerializeObject(new Ventes_OTF().Colonnes);
+                    else if (tmpSelectedModel == "Stock") tmp_objOTF = JsonConvert.SerializeObject(new Stock_OTF().Colonnes);
+                    else if (tmpSelectedModel == "Téléphonie") tmp_objOTF = JsonConvert.SerializeObject(new Telephonie_OTF().Colonnes);
+
+                    ModeleVizualisation objOTF = new ModeleVizualisation
+                    {
+                        ApplicationName = app.Name + " " + appSuffix,
+                        Host = host,
+                        Objet = tmp_objOTF,
+                        //JLEPTicket = ticket
+                    };
+                    _tmpVizuOTF.Add(objOTF);
+                }
+            }
+            _VizuOTF = _tmpVizuOTF.ToArray();
+
         }
     }
-
+    
     public class Ventes_OTF
     {
         public string Type { get; set; } //ex 'bi.cerpba.int'
